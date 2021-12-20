@@ -1,4 +1,4 @@
-# Competitive Programming
+# My Competitive Programming code :>
 
 - 👋 **Hi, I’m Phung Danh Chi Vi (vidut_206_CNH)**
 - 📫 **Contact me:**
