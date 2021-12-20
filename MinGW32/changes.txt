@@ -1,0 +1,6 @@
+Changes made to the original MinGW 4.8.1-4 install:
+
+- Removed the libexec\mingw-get folder.
+- Removed the share\doc folder.
+- Removed the var folder.
+- Added rm.exe from GCC 3.4.2.
