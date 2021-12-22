@@ -1,5 +1,5 @@
 /*
-    Author : vidut_206_CNH
+	Author : vidut_206_CNH
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -26,16 +26,24 @@ const int MAXN2 = 1e6+5;
 
 
 signed main() {
-    fast_cin();
-    
-    
-    
-    
-    
+	fast_cin();
+	
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	#endif
+	
+	int n;
+	cin >> n;
+	for(int i=1;i<=n;++i) {
+		cout << i << "\n";
+	}
+	
+	
 
-    #ifndef LOCAL_DEFINE
-    cerr << "\nTime elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n ";
-    #endif
-    
-    return 0;
+	#ifndef LOCAL_DEFINE
+	cerr << "\nTime elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n ";
+	#endif
+	
+	return 0;
 }

@@ -1,39 +1,44 @@
-// hihi uyennhi ne :>
-#include<bits/stdc++.h>
-#define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+/*
+	Author : vidut_206_CNH
+*/
+#include <bits/stdc++.h>
+using namespace std;
 #define int long long
 #define fi first
 #define se second
-using namespace std;
+#define pb push_back
+#define gcd(a,b) (__gcd(a,b))
+#define lcm(a,b) (a/gcd(a,b)*b)
+#define sz(x) (int)(x.size())
+#define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define INF 2e18
+#define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
+
 
 typedef pair<int,int> pii;
 
-const int mxn = 2e5+5;
-const int mod = 1e9+7;
-const int inf = 2e18;
-const double eps = 1e-9;
 
-int t;
+const int MOD = 1e9 + 7;
+const int MAXN1 = 1e5+5;
+const int MAXN2 = 1e6+5;
+
+
+
 
 signed main() {
 	fast_cin();
-	cin >> t;
-	while(t--) {
-		string s;
-		cin >> s;
-		int res = 0;
-		for(int i=0;i<(int)s.size();++i) {
-			if(s[i] == '1') {
-				if(i < (int)s.size() - 1 && s[i + 1] == '0') ++i;
-				else {
-					res++;
-				}
-			} else {
-				if(i < (int)s.size() - 1 && s[i+1] == '1') ++i;
-			}
-			//cout << res << " " << i << "\t";
-		}
-		cout << res << "\n";
-	}
+	
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	#endif
+	
+	
+	
 
+	#ifndef LOCAL_DEFINE
+	cerr << "\nTime elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n ";
+	#endif
+	
+	return 0;
 }
