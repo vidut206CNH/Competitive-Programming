@@ -1,73 +1,73 @@
 /* 
-	link problem: https://oj.vnoi.info/problem/haoi10_ck
 	Author : vidut_206_CNH
-*/ 
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
 #define fi first
 #define se second
 #define pb push_back
-#define fast_cin() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define gcd(a,b) (__gcd(a,b))
+#define lcm(a,b) (a/gcd(a,b)*b)
+#define sz(x) (int)(x.size())
+#define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define INF 2e18
+#define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
 
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXX = 2e9;
-const int MINN = -2e9;
-const int nMax = 1e6+5;
+const int MAXN1 = 1e5+5;
+const int MAXN2 = 1e6+5;
 
-int n,p,ans=1,t;
-int a[nMax],mark[105];
-
-pii st[2*nMax];
+int n,p;
+int a[MAXN1];
+deque<int> pmin,pmax;
 
 
 
-void build(int id,int l,int r) {
-	if(l == r) {
-		st[id] = {a[l],a[l]};
-		return;
-	}
-	int mid = (l+r)/2;
-	build(id*2,l,mid);
-	build(id*2+1,mid+1,r);
-	st[id].fi = min(st[id*2].fi,st[id*2+1].fi);
-	st[id].se = max(st[id*2].se,st[id*2+1].se);
-}
 
-pii query(int id,int u,int v,int l,int r) {
-	if(u > r || v < l) {
-		return {MAXX,MINN};
-	}
-	if(u <= l && r <= v) {
-		return st[id];
-	}
-	int mid = (l+r)/2;
-	pii tm1 = query(id*2,u,v,l,mid);
-	pii tm2 = query(id*2+1,u,v,mid+1,r);
-	return {min(tm1.fi,tm2.fi),max(tm1.se,tm2.se)};
-}
-//solve 1: fail
-void solve1() {
+signed main() {
+	fast_cin();
+	
 	cin >> n >> p;
 	for(int i=1;i<=n;++i) cin >> a[i];
-	build(1,1,n);
+	
+	
+	int ans = 0;
+	int pos = 0;
+	
 	for(int i=1;i<=n;++i) {
-		query(1,1,i,1,n);
-		query(1,i,n,1,n);
-	}
-}
-
-int32_t main() {
-	fast_cin();
-	int t = 1;
-	//cin >> t;
-	while(t) {
-		solve1();
-		cout << '\n';
-		--t;
-	}
+		while(!pmin.empty() && a[pmin.back()] > a[i]) pmin.pop_back();
+		while(!pmax.empty() && a[pmax.back()] < a[i]) pmax.pop_back();
+		
+		pmin.push_back(i);
+		pmax.push_back(i);
+		
+		
+		while(!pmin.empty() && !pmax.empty() && a[pmax.front()] - a[pmin.front()] >  p) {
+			if(pmin.front() < pmax.front()) {
+				pos = pmin.front();
+				pmin.pop_front();
+			} else {
+				pos = pmax.front();
+				pmax.pop_front();
+			}
+		}
+		// db(pmin.front());
+		// db(pmax.front());
+		// cerr << "\n";
+		ans = max(ans, i - pos);
+		
+	}	
+	
+	cout << ans;
+	
+	
+	
+	#ifndef LOCAL_DEFINE
+    cerr << "\nTime elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n ";
+    #endif
+	
 	return 0;
 }
