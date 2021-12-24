@@ -1,0 +1,10 @@
+[Line 44 -- d.front() : 1] 
+[Line 44 -- d.front() : 2] 
+[Line 44 -- d.front() : 2] 
+[Line 44 -- d.front() : 4] 
+[Line 44 -- d.front() : 1] 
+[Line 44 -- d.front() : 1] 
+[Line 44 -- d.front() : 1] 
+
+Time elapsed: 0.007413 s.
+ 
