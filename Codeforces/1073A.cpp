@@ -27,22 +27,23 @@ const int MAXN2 = 1e6+5;
 
 signed main() {
 	fast_cin();
-	
-	#ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-	#endif
-	
 	int n;
-	cin >> n;
-	for(int i=1;i<=n;++i) {
-		cout << i << "\n";
+	string s;
+	cin >> n >> s;
+	for(int i=0;i < n-1;++i) {
+		if(s[i] != s[i+1]) {
+			cout << "YES\n" << s[i] << s[i+1];
+			exit(0);
+		}
 	}
+	cout << "NO";
+	
+	
 	
 	
 
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
+	cerr << "\nTime elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n ";
 	#endif
 	
 	return 0;
