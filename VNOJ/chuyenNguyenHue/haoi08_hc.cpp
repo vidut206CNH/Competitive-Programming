@@ -1,46 +1,103 @@
-/*
-	link problem:
+/* 
 	Author : vidut_206_CNH
 */
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> p32;
-typedef pair<ll, ll> p64;
-typedef pair<double, double> pdd;
-typedef vector<ll> v64;
-typedef vector<int> v32;
-typedef vector<vector<int> > vv32;
-typedef vector<vector<ll> > vv64;
-typedef vector<vector<p64> > vvp64;
-typedef vector<p64> vp64;
-typedef vector<p32> vp32;
-#define mp make_pair
-#define pb push_back
+#define int long long
 #define fi first
 #define se second
+#define pb push_back
+#define gcd(a,b) (__gcd(a,b))
+#define lcm(a,b) (a/gcd(a,b)*b)
+#define sz(x) (int)(x.size())
+#define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define INF 2e18
-#define fast_cin() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-#define gcd(a,b) __gcd(a,b)
-#define lcm(a,b) (a/gcd(a,b))*b
+#define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
 
-const ll MOD = 1000000007;
-const ll nMax = 1e6 + 1;
+typedef pair<int,int> pii;
 
-void solve() {
+const int MOD = 1e9 + 7;
+const int MAXN1 = 205;
+const int MAXN2 = 1e6+5;
 
+
+int n,m;
+int a[MAXN1][MAXN1];
+int dist[MAXN1][MAXN1];
+bool P[MAXN1][MAXN1];
+int dx[] = {1,-1,0,0};
+int dy[] = {0,0,1,-1};
+
+
+struct node{
+	int x,y,w;
+	bool operator() (node &A, node &B) {
+		return A.w > B.w;
+	}
+};
+
+
+void dijk(int x, int y) {
+	
+	memset(P,0,sizeof P);
+	memset(dist, 0x3f, sizeof dist);
+	
+	priority_queue<node, vector<node>, node > p;
+	dist[x][y] = a[x][y];
+	p.push({x,y,dist[x][y]});
+	
+	while(!p.empty()) {
+		node cur = p.top();
+		p.pop();
+		
+		if(P[cur.x][cur.y]) continue;
+		P[cur.x][cur.y] = 1;
+		
+		for(int i=0;i<4;++i) {
+			int u = cur.x + dx[i];
+			int v = cur.y + dy[i];
+			
+			
+			if(u < 1 || u > m) continue;
+			if(v < 1 || v > n) continue;
+			
+			if(dist[u][v] > cur.w + a[u][v]) {
+				dist[u][v] = cur.w + a[u][v];
+				p.push({u,v,dist[u][v]});
+			}
+			
+		}
+	}
+	
 }
 
 
-int main() {
+signed main() {
 	fast_cin();
-	ll t = 1;
-	//cin >> t;
-	while (t) {
-		solve();
-		cout << '\n';
-		--t;
+	
+	cin >> m >> n;
+	
+	for(int i=1;i<=m;++i) {
+		for(int j=1;j<=n;++j) {
+			cin >> a[i][j];
+		}
+	}	
+	
+	int ans = INF;
+	
+	for(int i=1;i<=m;++i) {
+		dijk(i,1);
+		for(int j=1;j<=m;++j) {
+			ans = min(ans, dist[j][n]);
+		}
 	}
+	
+	cout << ans;
+	
+	
+	#ifndef LOCAL_DEFINE
+    cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+    #endif
+	
 	return 0;
 }

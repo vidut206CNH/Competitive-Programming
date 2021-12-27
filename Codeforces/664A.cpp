@@ -9,7 +9,7 @@ using namespace std;
 #define pb push_back
 #define gcd(a,b) (__gcd(a,b))
 #define lcm(a,b) (a/gcd(a,b)*b)
-#define sz(x) (int)(x.size())	
+#define sz(x) (int)(x.size())
 #define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define INF 2e18
 #define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
@@ -25,6 +25,10 @@ const int MAXN2 = 1e6+5;
 signed main() {
 	fast_cin();
 	
+	string a,b;
+	cin >> a >> b;	
+	if(a == b) cout << a;
+	else cout << 1;
 	
 	
 	

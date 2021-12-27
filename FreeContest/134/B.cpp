@@ -23,136 +23,130 @@ const int MOD = 1e9 + 7;
 const int MAXN1 = 2e4+5;
 const int MAXN2 = 1e6+5;
 
+
 int n;
-int a[MAXN1];
-vector< vector<int> > st(4*MAXN1, vector<int>(105));
-vector< vector<int> > m(MAXN1, vector<int>(105));
+vector< vector<bool> > st(4*MAXN1, vector<bool>(105)), a(MAXN1, vector<bool>(105));
+int p[MAXN2];
 
-bool npri[105];
 
-vector<int> comb(const vector<int>& A, const vector<int>& B) {
-	vector<int> res(105,0);
+
+void factor(vector<bool>& A, int val) {
+	if(val==1) return;
+	A[p[val]] = (A[p[val]]^1);
+	factor(A, val/p[val]);
+}
+
+void comb(vector<bool>& des, const vector<bool>& A, const vector<bool>& B) {
 	for(int i=2;i<=100;++i) {
-		if(!npri[i]) res[i] = (A[i] + B[i])%2;
+		des[i] = A[i]^B[i];
 	}
-	return res;
 }
 
-void build(int id,int l,int r) {
+
+
+void build(int node, int l, int r) {
 	if(l == r) {
-		st[id] = m[l];
+		st[node] = a[l];
 		return;
 	}
+	
 	int mid = (l+r) >> 1;
-	build(id << 1, l, mid);
-	build(id << 1|1, mid + 1, r);
-	st[id] = comb(st[id << 1], st[id << 1|1]);
+	build(node << 1, l, mid);
+	build(node << 1|1, mid + 1, r);
+	
+	comb(st[node], st[node << 1], st[node << 1|1]);
 }
 
 
-void update(int id,int l,int r, int& pos, const vector<int>& A) {
-	if(l == r) {
-		for(int i=2;i<=100;++i) {
-			st[id][i] = (st[id][i] + A[i])%2;
-		}
+void update(int node,int l,int r,int &pos,int& val) {
+	if(l==r) {
+		vector<bool> tmp(105);
+		factor(tmp, val);
+		comb(st[node], tmp, st[node]);
 		return;
 	}
+	
 	int mid = (l+r) >> 1;
+	if(pos <= mid) update(node << 1, l, mid, pos, val);
+	else update(node << 1|1, mid + 1, r, pos, val);
 	
-	if(pos <= mid) update(id << 1, l, mid, pos, A);
-	else update(id << 1|1, mid + 1, r, pos, A);
-	
-	st[id] = comb(st[id << 1], st[id << 1|1]);
+	comb(st[node], st[node << 1], st[node << 1|1]);
 }
 
-void get(int id,int l,int r,int& u, int& v, vector<int>& ans) {
+
+void get(int node,int l,int r,int& u, int &v, vector<bool>& res) {
 	if(u <= l && r <= v) {
-		for(int i=2;i<=100;++i) {
-			ans[i] = (ans[i] + st[id][i])%2;
-		}
+		comb(res, res, st[node]);
+		/*
+		cout << l << " " << r << "\n";
+		for(int i=2;i<=100;++i) cout << st[node][i];
+		cout << "\n";
+		for(int i=2;i<=100;++i) cout << res[i];
+		cout << "\n\n";
+		*/
 		return;
 	}
-	
 	int mid = (l+r) >> 1;
-	if(u <= mid) get(id << 1, l, mid, u, v, ans);
-	if(mid + 1 <= v) get(id << 1|1, mid + 1, r, u, v, ans);
-	
-} 
+	if(u <= mid) get(node << 1, l, mid, u, v, res);
+	if(mid + 1 <= v) get(node << 1|1, mid + 1, r, u, v, res);
+}
+
 
 
 signed main() {
 	fast_cin();
-	
-	for(int i=2;i*i<=100;++i) {
-		if(!npri[i]) for(int j=i*i;j <= 100; j+= i) npri[j] = 1;
-	}
-	
 	cin >> n;
 	
-	for(int i=1;i<=n;++i) {
-		cin >> a[i];
-		
-		for(int j=2;j<=100;++j) {
-			
-			if(!npri[j] && a[i]%j==0) {
-				int cnt = 0;
-				while(a[i]%j == 0) {
-					cnt++;
-					a[i] /= j;
-				}
-				if(cnt%2) {
-					m[i][j]++;
-				}
-			}
-			
-			
+	
+	
+	for(int i=1;i<=(int)1e6;++i) p[i] = i;
+	
+	
+	for(int i=2;i<=100;++i) {
+		if(p[i] == i) {
+			for(int j=i*i;j <=(int)1e6;j += i) p[j] = min(p[j], i);
 		}
 	}
 	
+	
+	for(int i=1;i<=n;++i) {
+		int x;
+		cin >> x;
+		vector<bool> tmp(105,0);
+		factor(tmp, x);
+		a[i] = tmp;
+	}
 	build(1,1,n);
-	
-	
-	
 	
 	int q;
 	cin >> q;
-	for(int i=1;i<=n;++i) {
+	
+	for(int i=1;i<=q;++i) {
 		int t,u,v;
 		cin >> t >> u >> v;
+		/*
+		for(int j=2;j<=100;++j) cout << st[1][j];
+		cout << "\n";
+		*/
 		if(t==1) {
-			bool bad = 0;
-			
-			vector<int> tmp(105,0);
-			
-			get(1,1,n,u,v,tmp);
-			for(int j=2;j<=100;++j) {
-				//cout << tmp[j] << " ";
-				if(!npri[j] && tmp[j]) {
-					bad = 1;
-					break;
-				}
-			}
-			
-			cout << (bad ? "NO\n" : "YES\n");
-			
-			
-		} else {
-			vector<int> tmp(105);
+			vector<bool> res(105,0);
+			bool good = 1;
+			get(1,1,n,u,v,res);
 			
 			for(int j=2;j<=100;++j) {
-				if(!npri[j] && v%j==0) {
-					int cnt = 0;
-					
-					while(v%j == 0) {v /= j;cnt++;}
-					
-					if(cnt%2) {
-						tmp[j]++;
-					}
-				}
+				good &= (res[j] == 0);
 			}
-			update(1,1,n,u,tmp);
+			
+			cout << (good ? "YES\n" : "NO\n");
+		}
+		
+		else  {
+			update(1,1,n,u,v);
 		}
 	}
+
+	
+	
 	
 	
 

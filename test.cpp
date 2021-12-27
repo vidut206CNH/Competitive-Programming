@@ -24,12 +24,53 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 
 
+string s;
 
 
 signed main() {
 	fast_cin();
 	
+	cin >> s;
+	reverse(s.begin(),s.end());
 	
+	vector<string> p;
+	
+	for(int i=0;i < sz(s); ++i) {
+		
+		for(int j=i+1;j<sz(s);++j) {
+			
+			if(s[i] < s[j]) {
+				string tmp = s;
+				swap(tmp[i], tmp[j]);
+				p.push_back(tmp);
+				break;
+			}
+			
+		}
+		
+	}
+	
+	
+	if(sz(p) == 0) cout << 0;
+	
+	else {
+		string res = p[0];
+		for(int i=0;i < sz(p);++i) {
+			
+			for(int pos=sz(s)-1; pos >= 0; --pos) {
+				
+				if(res[pos] < p[i][pos]) {
+					res = p[i];
+					break;
+				}
+				
+			}
+			
+		}
+		
+		reverse(res.begin(), res.end());
+		cout <<res;
+	}
 	
 	
 	

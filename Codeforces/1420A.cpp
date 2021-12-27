@@ -9,7 +9,7 @@ using namespace std;
 #define pb push_back
 #define gcd(a,b) (__gcd(a,b))
 #define lcm(a,b) (a/gcd(a,b)*b)
-#define sz(x) (int)(x.size())	
+#define sz(x) (int)(x.size())
 #define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define INF 2e18
 #define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
@@ -20,11 +20,24 @@ const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 
-
+int a[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	int t;
+	cin >> t;
+	a[0] = INF;
+	while(t--) {
+		int n;
+		cin >> n;
+		bool ok = 1;
+		for(int i=1;i <= n;++i) {
+			cin >> a[i];
+			ok &= (a[i] < a[i-1]);
+		}
+		cout << (ok ? "NO\n" : "YES\n");
+	}
 	
 	
 	

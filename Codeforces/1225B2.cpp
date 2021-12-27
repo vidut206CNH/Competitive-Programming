@@ -9,7 +9,7 @@ using namespace std;
 #define pb push_back
 #define gcd(a,b) (__gcd(a,b))
 #define lcm(a,b) (a/gcd(a,b)*b)
-#define sz(x) (int)(x.size())	
+#define sz(x) (int)(x.size())
 #define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define INF 2e18
 #define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
@@ -17,15 +17,38 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 
-
+int t;
+int a[MAXN1];
+int occ[MAXN2];
+int last[MAXN2];
 
 signed main() {
 	fast_cin();
-	
-	
+	cin >> t;
+	while(t--) {
+		int n,d,k;
+		cin >> n >> k >> d;
+		int ans = INF;
+		for(int i=1;i<=n;++i) {cin >> a[i];occ[a[i]]=0;}
+		int pos = 0;
+		int cnt = 0;
+		for(int i=1;i<=n;++i) {
+			if(i > d) {
+				pos++;
+				occ[a[pos]]--;
+				if(occ[a[pos]] == 0) cnt--;
+			}
+			occ[a[i]]++;
+			if(occ[a[i]] == 1) cnt++;
+			
+			if(i >= d) ans = min(ans, cnt);
+		}
+		cout << ans << "\n";
+	}
+		
 	
 	
 	#ifndef LOCAL_DEFINE
