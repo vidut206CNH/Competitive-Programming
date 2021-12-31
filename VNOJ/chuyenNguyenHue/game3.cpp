@@ -1,5 +1,6 @@
 /*
 	Author : vidut_206_CNH
+	Link problem: 
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -28,15 +29,13 @@ const int MAXN2 = 1e6+5;
 signed main() {
 	fast_cin();
 	
-	int n;
-	cin >> n;
-	for(int i=1;i<=n;++i) cout << i << " ";
+	
 	
 	
 	
 
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
 	#endif
 	
 	return 0;

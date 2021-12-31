@@ -1,5 +1,6 @@
 /*
 	Author : vidut_206_CNH
+	Link problem: 
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -19,24 +20,32 @@ typedef pair<int,int> pii;
 
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 255;
 const int MAXN2 = 1e6+5;
 
-
+int m,n;
+int dp[MAXN1];
 
 
 signed main() {
 	fast_cin();
 	
-	int n;
-	cin >> n;
-	for(int i=1;i<=n;++i) cout << i << " ";
+	cin >> n >> m;
+	dp[0] = 1;
+	for(int i=1;i<=m;++i) {
+		int x;
+		cin >> x;
+		for(int w = x; w <= n; ++w) {
+			dp[w] += dp[w - x];
+		}
+	}
 	
+	cout << dp[n] << "\n";
 	
 	
 
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
 	#endif
 	
 	return 0;

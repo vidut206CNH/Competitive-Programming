@@ -1,5 +1,6 @@
 /*
 	Author : vidut_206_CNH
+	Link problem: 
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -21,6 +22,16 @@ typedef pair<int,int> pii;
 const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
+const int Test = 100;
+
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+int getRand(int l,int r) {
+	assert(l <= r);
+	return l + rd() * 1LL * rd()%(r - l + 1);
+	
+}
 
 
 
@@ -28,15 +39,11 @@ const int MAXN2 = 1e6+5;
 signed main() {
 	fast_cin();
 	
-	int n;
-	cin >> n;
-	for(int i=1;i<=n;++i) cout << i << " ";
-	
-	
+	cout << getRand(1e7,(int)1e8);
 	
 
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
 	#endif
 	
 	return 0;

@@ -1,4 +1,4 @@
-/*
+/* 
 	Author : vidut_206_CNH
 */
 #include <bits/stdc++.h>
@@ -14,9 +14,7 @@ using namespace std;
 #define INF 2e18
 #define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
 
-
 typedef pair<int,int> pii;
-
 
 const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
@@ -24,20 +22,27 @@ const int MAXN2 = 1e6+5;
 
 
 
-
 signed main() {
 	fast_cin();
 	
-	int n;
-	cin >> n;
-	for(int i=1;i<=n;++i) cout << i << " ";
+	int t;
+	cin >> t;
+	while(t--) {
+		int n;
+		string s;
+		cin >> n >> s;
+		if(sz(s) == 2 && s[0] >= s[1]) {
+			cout << "NO\n";
+			continue;
+		}
+		cout << "YES\n2\n";
+		cout << s[0] << " " << s.substr(1,sz(s) - 1) << "\n";
+	}
+		
 	
-	
-	
-
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
-	#endif
+    cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+    #endif
 	
 	return 0;
 }
