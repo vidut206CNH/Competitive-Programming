@@ -29,7 +29,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int getRand(int l,int r) {
 	assert(l <= r);
-	return l + rd() * 1LL * rd()%(r - l + 1);
+	return l + rng() * 1LL * rng()%(r - l + 1);
 	
 }
 
@@ -39,7 +39,11 @@ int getRand(int l,int r) {
 signed main() {
 	fast_cin();
 	
-	cout << getRand(1e7,(int)1e8);
+	srand(time_t(0));
+	
+	int l = getRand(1,(int)1e7);
+	int r = getRand(l, l*l);
+	cout << l << " " << r << "\n";
 	
 
 	#ifndef LOCAL_DEFINE

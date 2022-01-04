@@ -1,6 +1,5 @@
-/*
+/* 
 	Author : vidut_206_CNH
-	Link problem: 
 */
 #include <bits/stdc++.h>
 using namespace std;
@@ -15,31 +14,33 @@ using namespace std;
 #define INF 2e18
 #define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
 
-
 typedef pair<int,int> pii;
 
-
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 5e6+5;
 const int MAXN2 = 1e6+5;
 
-
-string s;
-
+int n;
+int cnt[MAXN1];
+int cnt[MAXN1];
 
 signed main() {
 	fast_cin();
-	int n;
+	
 	cin >> n;
-	cout << n << "\n";
-
+	for(int i=1;i*i <= n;++i) {
+		for(int j=i*i;j <= n; j += i*i) p[j] = j/(i*i);
+	}
+	for(int i=1;i<=n;++i) {
+		ans += cnt[p[i]];
+		p[i]++;
+	}
 	
 	
 	
-
 	#ifndef LOCAL_DEFINE
-	cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
-	#endif
+    cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
+    #endif
 	
 	return 0;
 }
