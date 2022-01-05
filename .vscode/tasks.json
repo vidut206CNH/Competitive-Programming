@@ -1,141 +1,70 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "cppbuild",
-			"label": "Compile C++14",
-			"command": "C:\\MinGW\\bin\\g++.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-std=c++14",
-				"-LOCAL_DEFINE",
-				"-Wall",
-				"-Wextra",
-				"-Wshadow",
-				"-O2",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
-		},
-		{
-			"type": "cppbuild",
-			"label": "C/C++: cpp.exe build active file",
-			"command": "C:\\MinGW\\bin\\cpp.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\cpp.exe"
-		},
-		{
-			"type": "cppbuild",
-			"label": "C/C++: gcc.exe build active file",
-			"command": "C:\\MinGW\\bin\\gcc.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\gcc.exe"
-		},
-		{
-			"type": "cppbuild",
-			"label": "C/C++: cpp.exe build active file",
-			"command": "C:\\MinGW\\bin\\cpp.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\cpp.exe"
-		},
-		{
-			"type": "cppbuild",
-			"label": "Compile  C++14 - Debug",
-			"command": "C:\\MinGW\\bin\\g++.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-LOCAL_DEFINE",
-				"-std=c++14",
-				"-O2",
-				"-Wall",
-				"-Wextra",
-				"-Wshadow",
-				"-D_GLIBCXX_ASSERTIONS",
-				"-DDEBUG",
-				"-ggdb3",
-				"-fmax-errors=3",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
-		},
-		{
-			"type": "cppbuild",
-			"label": "C/C++: g++.exe build active file",
-			"command": "C:\\MinGW\\bin\\g++.exe",
-			"args": [
-				"-fdiagnostics-color=always",
-				"-g",
-				"${file}",
-				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
-			],
-			"options": {
-				"cwd": "${fileDirname}"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
-		}
-	]
-}
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "compile c++11",
+            "command": "g++",
+            "args": [
+                "-std=c++11",
+                "-Wshadow",
+                "-Wall",
+                "-Wextra",
+                "-O2",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "cppbuild",
+            "label": "Compile c++11 (DEBUG)",
+            "command": "g++",
+            "args": [
+                "-LOCAL_DEFINE",
+                "-Wall",
+                "-Wextra",
+                "-pedantic",
+                "-std=c++11",
+                "-O2",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wfloat-equal",
+                "-Wconversion",
+                "-Wlogical-op",
+                "-Wshift-overflow=2",
+                "-Wduplicated-cond",
+                "-Wcast-qual",
+                "-Wcast-align",
+                "-D_GLIBCXX_DEBUG",
+                "-D_GLIBCXX_DEBUG_PEDANTIC",
+                "-D_FORTIFY_SOURCE=2",
+                "-fsanitize=address",
+                "-fsanitize=undefined",
+                "-fno-sanitize-recover",
+                "-fstack-protector",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "compiler: /usr/bin/g++"
+        }
+    ]
+  }
