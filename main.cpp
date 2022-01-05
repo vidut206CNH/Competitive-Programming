@@ -4,8 +4,11 @@ using namespace std;
 
 int main() {
 
-	long long n;
+	int n;
 	cin >> n;
-	for(long long i=1;i<=n;++i) cout << i << " ";
-	
+	for(int i=1;i<=n;++i) {
+		cout << i << "\n";
+	}
+	return 0;
+
 }
