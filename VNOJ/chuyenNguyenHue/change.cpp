@@ -20,16 +20,27 @@ const int MOD = 1e9 + 7;
 const int MAXN1 = 5e3+5;
 const int MAXN2 = 1e6+5;
 
-int a[MAXN1];
 
 signed main() {
 	fast_cin();
 		
 	int n;
 	cin >> n;
+	priority_queue<int> p;
+	int ans = 0;
 	for(int i=1;i<=n;++i) {
-		cin >> a[i];
+		int x;
+		cin >> x;
+		p.push(x);
+		
+		if(!p.empty() && p.top() > x) {
+			ans +=  p.top() - x;
+			p.pop();
+			p.push(x);
+		}
 	}
+	
+	cout << ans;
 	
 	
 	#ifndef LOCAL_DEFINE

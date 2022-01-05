@@ -16,16 +16,41 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
-const int MAXN2 = 1e6+5;
+const int MAXN1 = 25;
+const int MAXN2 = (1LL << 20) + 5;
 const int inf = 1e18;
 
+int n,k;
+int a[MAXN1][MAXN1];
+int dp[MAXN2];
 
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> k;
+	for(int i=0;i<n;++i) {
+		for(int j=0;j<n;++j) {
+			cin >> a[i][j];
+		}
+	}
+	memset(dp, 0x3f, sizeof dp);
+	dp[(1LL << n) - 1] = 0;
+	int ans = inf;
+	for(int mask = (1LL << n) - 2; mask > 0; --mask) {
+		for(int i=0;i < n;++i) {
+			if(!(mask >> i & 1)) {
+				for(int j=0;j < n;++j) {
+					if(mask >> j & 1) {
+						dp[mask] = min(dp[mask], dp[mask^(1LL << i)] + a[i][j]);	
+					}
+				}
+			}
+		}
+		if((int)__builtin_popcount(mask) == k) ans = min(ans, dp[mask]);
+	}	
 	
+	cout << ans;
 	
 	
 	#ifndef LOCAL_DEFINE
