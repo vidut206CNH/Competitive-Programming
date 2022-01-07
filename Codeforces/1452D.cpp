@@ -15,41 +15,39 @@ using namespace std;
 
 typedef pair<int,int> pii;
 
-const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MOD = 998244353;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-pii a[MAXN1];
-int last[MAXN1];
+int dp[MAXN1];
+int f[MAXN1];
+int n;
+
+// modular inverse 
+int inv(int A,int B) {
+	return (1 < A ? B - inv(B%A, A)*B/A : 1);	
+}
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,m;
-		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
-		
-		vector< vector<int> > res(n + 1, vector<int>(m + 1));
-		vector<int> E[n*m + 5];
-		
-		for(int i=1;i<=n*m;++i) {
-			int x;
-			cin >> x;
-			E[x].push_back(i);
-		}
-		
-		sort(a + 1, a + n*m + 1, [&] (pii A, pii B) {
-			if(A.fi == B.fi) return A.se < B.se;
-			return A.fi > B.fi;
-		});		
-		int k = 1;
-		for(int )
-		
+	cin >> n;
+	dp[1] = 1;
+	f[1] = 1;
+	for(int i=2;i<=n;++i) {
+		f[i] = dp[i-1];
+		if(i%2) f[i] = (f[i] + 1)%MOD;
+		dp[i] = (f[i] + dp[i-2])%MOD;
+	}	
+	int res = 1, b = n, base = 2;
+	while(b) {
+		if(b&1) res = res*base%MOD;
+		base = base*base%MOD;
+		b /= 2;
 	}
+	
+	cout << f[n]*inv(res, MOD)%MOD << "\n";
 	
 	
 	
@@ -59,4 +57,3 @@ signed main() {
 	
 	return 0;
 }
-

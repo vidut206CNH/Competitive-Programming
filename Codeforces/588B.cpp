@@ -20,36 +20,29 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-pii a[MAXN1];
-int last[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,m;
-		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
-		
-		vector< vector<int> > res(n + 1, vector<int>(m + 1));
-		vector<int> E[n*m + 5];
-		
-		for(int i=1;i<=n*m;++i) {
-			int x;
-			cin >> x;
-			E[x].push_back(i);
+	int n;
+	cin >> n;
+	int res = 1;
+	for(int i=2;i*i <= n;++i) {
+		if(n%i == 0) {
+			int cnt = 0;
+			while(n%i==0) {
+				n /= i;
+				cnt++;
+				res *= i;
+			}
+			while(cnt > 1) {
+				res /= i;
+				cnt--;
+			}	
 		}
-		
-		sort(a + 1, a + n*m + 1, [&] (pii A, pii B) {
-			if(A.fi == B.fi) return A.se < B.se;
-			return A.fi > B.fi;
-		});		
-		int k = 1;
-		for(int )
-		
 	}
+	if(n > 1) res *= n;
+	cout << res;
 	
 	
 	
@@ -59,4 +52,3 @@ signed main() {
 	
 	return 0;
 }
-

@@ -16,40 +16,42 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e3+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-pii a[MAXN1];
-int last[MAXN1];
+int n,m;
+int a[MAXN1];
+int b[2*MAXN1];
+unordered_map<int,int> ma,mb;
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,m;
-		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
-		
-		vector< vector<int> > res(n + 1, vector<int>(m + 1));
-		vector<int> E[n*m + 5];
-		
-		for(int i=1;i<=n*m;++i) {
-			int x;
-			cin >> x;
-			E[x].push_back(i);
-		}
-		
-		sort(a + 1, a + n*m + 1, [&] (pii A, pii B) {
-			if(A.fi == B.fi) return A.se < B.se;
-			return A.fi > B.fi;
-		});		
-		int k = 1;
-		for(int )
-		
+	cin >> n >> m;
+	
+	for(int i=1;i<=n;++i) {
+		cin >> a[i];
+		ma[a[i]]++;
 	}
+	for(int i=1;i<=n;++i) {
+		cin >> b[i];
+		mb[b[i]]++;
+	}
+	int ans = m;
+	for(int k=1;k <= n;++k) {
+		int d = (b[k] + m - a[1])%m;
+		bool ok = 1;
+		for(int i=1;i <= n; ++i) {
+			ok &= (ma[a[i]] == mb[(d + a[i])%m]);
+			//db(ok);
+		}
+		//db(d);
+		//cerr << "\n";
+		if(ok) ans = min(ans, d);
+	}
+	
+	cout << ans;
 	
 	
 	
@@ -59,4 +61,3 @@ signed main() {
 	
 	return 0;
 }
-

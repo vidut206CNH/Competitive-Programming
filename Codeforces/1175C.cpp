@@ -16,41 +16,36 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-pii a[MAXN1];
-int last[MAXN1];
+int t;
+int a[MAXN1];
+int b[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	int t;
 	cin >> t;
 	while(t--) {
-		int n,m;
-		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
-		
-		vector< vector<int> > res(n + 1, vector<int>(m + 1));
-		vector<int> E[n*m + 5];
-		
-		for(int i=1;i<=n*m;++i) {
-			int x;
-			cin >> x;
-			E[x].push_back(i);
+		int n,k;
+		cin >> n >> k;
+		for(int i=1;i <= n;++i) {
+			cin >> a[i];
+		}
+		sort(a+1, a + n + 1);
+		int minn = inf, res;
+		for(int i=k+1;i <= n;++i) {
+			int pos = (a[i-k] + a[i])/2;
+			if(minn > a[i] - pos) {
+				minn = a[i] - pos;
+				res = pos;
+			}
 		}
 		
-		sort(a + 1, a + n*m + 1, [&] (pii A, pii B) {
-			if(A.fi == B.fi) return A.se < B.se;
-			return A.fi > B.fi;
-		});		
-		int k = 1;
-		for(int )
-		
+		cout << res << "\n";
 	}
-	
 	
 	
 	#ifndef LOCAL_DEFINE
@@ -59,4 +54,3 @@ signed main() {
 	
 	return 0;
 }
-

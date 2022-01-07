@@ -16,41 +16,40 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 5e4+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-pii a[MAXN1];
-int last[MAXN1];
+bool p[MAXN1];
 
 signed main() {
 	fast_cin();
 	
 	int t;
 	cin >> t;
+	for(int i=2;i*i <= 50000;i++) {
+		if(!p[i]) for(int j=i*i;j <= 50000;j += i) p[j] = 1;
+	}
+	vector<int> a;
+	for(int i=2;i <= 50000;++i) {
+		if(!p[i]) a.push_back(i);
+	}
 	while(t--) {
-		int n,m;
-		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
-		
-		vector< vector<int> > res(n + 1, vector<int>(m + 1));
-		vector<int> E[n*m + 5];
-		
-		for(int i=1;i<=n*m;++i) {
-			int x;
-			cin >> x;
-			E[x].push_back(i);
+		int d;
+		cin >> d;
+		int ans = inf;
+		int l = lower_bound(a.begin(), a.end(), 1 + d) - a.begin();
+		int r = lower_bound(a.begin() + l + 1, a.end(), a[l] + d) - a.begin();
+		if(r != sz(a)) ans = a[l]*a[r];
+		for(int i=1;i*i - i <= 10000;++i) {
+			if(i >= 1 + d && i*i - i >= d) {
+				ans = min(ans, i*i*i);
+				break;
+			}
 		}
 		
-		sort(a + 1, a + n*m + 1, [&] (pii A, pii B) {
-			if(A.fi == B.fi) return A.se < B.se;
-			return A.fi > B.fi;
-		});		
-		int k = 1;
-		for(int )
-		
+		cout << ans << "\n";
 	}
-	
 	
 	
 	#ifndef LOCAL_DEFINE
@@ -59,4 +58,3 @@ signed main() {
 	
 	return 0;
 }
-
