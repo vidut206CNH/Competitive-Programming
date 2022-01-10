@@ -16,41 +16,40 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,x;
-int a[MAXN1];
-int bit[2*MAXN1];
 
-void update(int pos) {
-	for(;pos < 2*MAXN1; pos += pos&-pos) bit[pos]++;
-	
-}
-
-int get(int pos) {
+int get(int val) {
 	int res = 0;
-	for(;pos > 0; pos -= (pos&-pos)) res += bit[pos];
+	for(int i=0;(1LL << i) < val;++i) {
+		int tmp = (val >> i);
+		res += (tmp >> 1)*(1LL << i);
+		//db(res);
+		if((val & ((1LL << i) - 1)) && (tmp & 1)) {
+			res += (val - (1LL << i)*(tmp));
+		}
+		//db(res);
+		//cerr << "\n";
+	}
 	return res;
 }
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> x;
-	for(int i=1;i<=n;++i) {
-		cin >> a[i];
-		a[i] = (a[i] >= x ? 1 : -1);
-		a[i] += a[i-1];
-	}
-	int res = 0;
-	for(int i=0;i<=n;++i) {
-		res += get(a[i] + 1 +MAXN1);
-		update(a[i] + 1 + MAXN1);
+	int q;
+	cin >> q;
+	//cout << get(q + 1);
+	
+	for(int i=1;i<=q;++i) {
+		int l, r;
+		cin >> l >> r;
+		
+		cout << get(r + 1) - get(l) << "\n";
 	}
 	
-	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE

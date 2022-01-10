@@ -21,7 +21,8 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 pii a[MAXN1];
-int last[MAXN1];
+int last[MAXN1];	
+
 
 signed main() {
 	fast_cin();
@@ -31,7 +32,7 @@ signed main() {
 	while(t--) {
 		int n,m;
 		cin >> n >> m;
-		memset(last, 0, sizeof(last[0])*(n+1));
+		memset(last, 0, sizeof(last[0])*(n+1	));
 		
 		vector< vector<int> > res(n + 1, vector<int>(m + 1));
 		vector<int> E[n*m + 5];

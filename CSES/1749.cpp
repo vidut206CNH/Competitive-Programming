@@ -16,41 +16,54 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5 + 5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,x;
+int n;
+int st[4*MAXN1];
 int a[MAXN1];
-int bit[2*MAXN1];
 
-void update(int pos) {
-	for(;pos < 2*MAXN1; pos += pos&-pos) bit[pos]++;
-	
+void build(int node, int l, int r) {
+	if(l == r) {
+		st[node] = 1;
+		return;
+	}
+	int mid = (l+r) >> 1;
+	build(node << 1, l, mid);
+	build(node << 1|1, mid + 1, r);
+	st[node] = st[node << 1] + st[node << 1|1];
 }
 
-int get(int pos) {
-	int res = 0;
-	for(;pos > 0; pos -= (pos&-pos)) res += bit[pos];
-	return res;
+
+void queryupdate(int node, int l, int r,int pos) {
+	if(l == r) {
+		st[node] = 0;
+		cout << a[l] << " ";
+		return;
+	}
+	int mid = (l+r) >> 1;
+	if(pos <= st[node << 1]) queryupdate(node << 1, l, mid, pos);
+	else queryupdate(node << 1|1, mid + 1, r, pos - st[node << 1]);
+	st[node] = st[node << 1] + st[node << 1|1];
 }
 
 signed main() {
 	fast_cin();
-	
-	cin >> n >> x;
+	cin >> n;
 	for(int i=1;i<=n;++i) {
 		cin >> a[i];
-		a[i] = (a[i] >= x ? 1 : -1);
-		a[i] += a[i-1];
-	}
-	int res = 0;
-	for(int i=0;i<=n;++i) {
-		res += get(a[i] + 1 +MAXN1);
-		update(a[i] + 1 + MAXN1);
 	}
 	
-	cout << res;
+	build(1,1,n);
+	
+	for(int i=1;i<=n;++i) {
+		int pos;
+		cin >> pos;
+		//db(st[1]);
+		queryupdate(1,1,n,pos);
+	}
+	
 	
 	
 	#ifndef LOCAL_DEFINE
