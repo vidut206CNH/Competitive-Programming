@@ -20,10 +20,33 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
+int n;
+int a[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		int ans = 0;
+		for(int i=1;i<=n;++i) {
+			cin >> a[i];
+			int d = (a[i] - i%a[i]);
+			
+			for(int pos=d; pos < i;pos += a[i]) {
+				if(pos == 0) continue;
+				
+				ans += (a[i]*a[pos] == i+pos);
+				
+			}
+				
+		}
+		
+		cout << ans << "\n";
+		
+	}
 	
 	
 	

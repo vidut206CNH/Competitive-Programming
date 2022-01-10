@@ -24,6 +24,28 @@ const int inf = 1e18;
 signed main() {
 	fast_cin();
 	
+	int n;
+	cin >> n;
+	bool find = 0;
+	int pre = 0;
+	
+	int l=1,r=n-1;
+	int add = 0;
+	while(l <= r) {
+		int mid = (l+r) >> 1;
+		cout << "+ " << mid << "\n";
+		fflush(stdout);
+		int rep;
+		cin >> rep;
+		pre = rep;
+		if(pre == 1) {
+			r = mid - 1;
+		} else l = mid + 1;
+		add = mid;
+	}
+	cout << "! " << n - add + pre << "\n";
+		
+	
 	
 	
 	

@@ -11,7 +11,7 @@ using namespace std;
 #define lcm(a,b) (a/gcd(a,b)*b)
 #define sz(x) (int)(x.size())
 #define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
+#define db(x) cerr << "[" << "Line " << __LINE__ << " : " << (#x) << " = " << x << "] "
 
 typedef pair<int,int> pii;
 

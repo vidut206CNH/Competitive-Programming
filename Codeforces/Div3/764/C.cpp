@@ -20,10 +20,42 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t,n;
+int a[55];
+bool ok[55];
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		memset(ok, 0, sizeof ok);
+		
+		for(int i=1;i<=n;++i) {
+			cin >> a[i];	
+		}
+		
+		sort(a+1,a+n+1);
+		for(int i=1;i<=n;++i) {
+			if(a[i] <= n && ok[a[i]] == 0) {
+				ok[a[i]] = 1;
+			}
+			else {
+				a[i] >>= 1;
+				while(a[i]) {
+					if(a[i] <= n && ok[a[i]] == 0) {
+						ok[a[i]] = 1;
+						break;
+					}
+					a[i] >>=1;
+				}
+			}
+		}
+		bool res = 1;
+		for(int i=1;i<=n;++i) res &= ok[i];
+		cout << (res ? "YES\n" : "NO\n");
+	}
 	
 	
 	

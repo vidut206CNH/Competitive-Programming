@@ -20,11 +20,29 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t,n;
+int a[55];
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
 	
+	while(t--) {
+		cin >> n;
+		int maxx = -inf;
+		for(int i=1;i<=n;++i) {
+			cin >> a[i];
+			maxx = max(maxx, a[i]);
+		}
+		sort(a+1,a+n+1, greater<int>());
+		int d = 0;
+		for(int i=2;i<=n;++i) {
+			a[i] += d;
+			d += max(0LL,a[1] - a[i]);
+		}
+		cout << d << "\n";
+	}	
 	
 	
 	#ifndef LOCAL_DEFINE

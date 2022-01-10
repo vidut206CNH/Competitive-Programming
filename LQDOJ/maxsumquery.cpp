@@ -16,14 +16,43 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n,q;
+int a[MAXN1];
+int d[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> q;
+	for(int i=1;i<=n;++i) cin >> a[i];
+	sort(a+1,a+n+1,greater<int>());
+	
+	
+	for(int i=1;i<=q;++i) {
+		int l,r;
+		cin >> l >> r;
+		d[l]++;
+		d[r+1]--;
+	}
+	
+	for(int i=1;i<=n;++i) {
+		d[i] += d[i-1];
+	}
+	
+	sort(d+1, d + n +1, greater<int>());
+	
+	int res = 0;
+	
+	for(int i=1;i<=n;++i) {
+		res += a[i]*d[i];
+	}
+	
+	cout << res;
+
 	
 	
 	

@@ -20,10 +20,25 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t,a,b,c;
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		cin >> a >> b >> c;
+		if((2*b - c) >= a && (2*b - c)%a == 0) {
+			cout << "YES\n";
+		}
+		else if(2*b - a >= c && (2*b - a)%c == 0) {
+			cout << "YES\n";
+		}
+		else if((a+c)%2 == 0 && (a+c)/2 >= b && ((a+c)/2)%b == 0) {
+			cout << "YES\n";
+		}
+		else cout << "NO\n";
+	}
 	
 	
 	
