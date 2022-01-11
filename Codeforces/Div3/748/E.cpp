@@ -16,7 +16,7 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
@@ -52,16 +52,15 @@ signed main() {
 			}
 		}
 		int ans = 0;
-		for(int i=1;i<=k;++i) {
-			if(q.empty()) break;
-			while(!q.empty() && dist[q.front()] == i) {
-				int cur = q.front();
-				q.pop();
-				for(auto x : p[cur]) {
-					if(dist[x] == inf) {
-						dist[x] = dist[cur] + 1;
-						q.push(x);
-					}
+		while(!q.empty()) {
+			int cur = q.front();
+			q.pop();
+			for(auto x : p[cur]) {
+				if(g[x] <= 1) continue;
+				--g[x];
+				if(g[x] == 1) {
+					dist[x] = dist[cur] + 1;
+					q.push(x);
 				}
 			}
 		}

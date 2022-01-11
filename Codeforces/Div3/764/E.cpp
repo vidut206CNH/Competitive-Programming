@@ -19,7 +19,7 @@ const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e3+5;
 const int inf = 1e18;
-const int base = 17;
+const int base = 13;
 int t;
 bool ok[MAXN1];
 pii p[MAXN1];
@@ -36,14 +36,13 @@ signed main() {
 		
 		int n,m;
 		cin >> n >> m;
-		vector< pair<pii, int> > res;
 		bool good = 1;
 		cin.ignore();
 		
 		for(int i=1;i<=n;++i) {
 			for(int j=1;j<=m;++j) {
 				cin >> a[i][j];
-				a[i][j] = a[i][j] - '0' + 2;
+				a[i][j] = a[i][j] - '0' + 1;
 				if(j > 1) {
 					ok[a[i][j-1]*base + a[i][j]] = 1;
 					p[a[i][j-1]*base + a[i][j]] = {j-1, i};
@@ -59,69 +58,50 @@ signed main() {
 		}
 		for(int i=1;i<=m;++i) {
 			cin >> b[i];
-			b[i] = b[i] - '0' + 2;
+			b[i] = b[i] - '0' + 1;
 		}
 		cin.ignore();
 		
-		if(m%2==0) {
-			for(int i=1;i < m; i += 2) {
-				int d = b[i]*base + b[i+1];
-/*				db(d);
-				db(ok[d]);
-				cerr << "\n";*/
-				good &= ok[d];
-				res.push_back({{p[d].fi, p[d].fi + 1}, p[d].se});
-			}
+		vector<int> dp(m+1, -1);
+		dp[0] = 0;
+		
+		for(int i=1;i<=m;++i) {
 			
-			if(!good) {
-				bool pre = 1,find = 0;
-				for(int i=1;i <=m-2;i += 2) {
-					if(!pre) break;
-					bool tmp = 1;
-					int d = b[i]*base*base + b[i+1]*base + b[i+2];
-					tmp &= ok[d];
-					if(tmp) {
-						bool pre1 = 1;
-						for(int j=i+3;j <= m-2;j += 2) {
-							int g = b[j]*base*base + b[j+1]*base + b[j+2];
-							tmp &=  
-						}
-					}
-					if(find) break;
-					
-					
+			if(i > 1) {
+				int val = b[i-1]*base + b[i];
+				if(dp[i-2] != -1 && ok[val]) {
+					dp[i] = i-2;
+				}	
+			}
+			if(i > 2) {
+				int val = b[i-2]*base*base + b[i-1]*base + b[i];
+				if(dp[i-3] != -1 && ok[val]) {
+					dp[i] = i-3;
 				}
+			}
+		}
+		vector< pair<pii, int> > res;
+		good = (dp[m] != -1);
+		
+		if(dp[m] != -1) {
+			//db(m);
+			int pos = m;
+			while(pos != 0) {
+				if(pos - dp[pos] == 2) {
+					int val = b[pos-1]*base + b[pos];
+					res.push_back({{p[val].fi, p[val].fi + 1}, p[val].se});
+				}
+				else {
+					int val = b[pos-2]*base*base + b[pos-1]*base + b[pos];
+					res.push_back({{p[val].fi, p[val].fi + 2}, p[val].se});
+				}
+				pos = dp[pos];
 			}
 		}
 		
-		else {
-			bool pre = 1, find = 0;
-			for(int i=1; i <= m-2; i+=2) {
-				if(!pre) break;
-				bool tmp = 1;
-				int d = b[i]*base*base + b[i+1]*base + b[i+2];
-				tmp &= ok[d];
-				for(int j=i + 3;j <= m;j += 2) {
-					tmp &= (ok[b[j]*base + b[j+1]]);
-				}
-				if(tmp) {
-					res.push_back({{p[d].fi, p[d].fi+2}, p[d].se});
-					db(d);
-					for(int j=i+3;j<=m;j += 2) {
-						int g = b[j]*base + b[j+1];
-						res.push_back({{p[g].fi, p[g].fi + 1}, p[g].se});
-					}
-					find = 1;
-					break;
-				}
-				//db(tmp);
-				d = b[i]*base + b[i+1];
-				pre &= ok[d];
-				res.push_back({{p[d].fi, p[d].fi + 1}, p[d].se});
-			}
-			
-			good &= find;
-		}
+		reverse(res.begin(),res.end());
+		
+		
 		
 		//memset
 		for(int i=1;i<=n;++i) {

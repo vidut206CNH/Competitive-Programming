@@ -20,57 +20,43 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-
-int t,n,k;
-vector<int> dist(2*MAXN1);
-int g[2*MAXN1];
-
+int a[1005];
 
 signed main() {
 	fast_cin();
 	
+	int t;
 	cin >> t;
-	
 	while(t--) {
-		cin >> n >> k;
-		dist.assign(n+1, inf);
-		vector<int> p[n+1];
-		for(int i=1;i<n;++i) {
-			int u,v;
-			cin >> u >> v;
-			p[u].push_back(v);
-			p[v].push_back(u);
-		}
-		
-		queue<int> q;
-		
+		int n;
+		cin >> n;
+		vector<int> ok(1005, 0);
 		for(int i=1;i<=n;++i) {
-			g[i] = sz(p[i]);
-			if(g[i] == 1) {
-				dist[i] = 1;
-				q.push(i);
-			}
+			cin >> a[i];
 		}
-		int ans = 0;
-		for(int i=1;i<=k;++i) {
-			if(q.empty()) break;
-			while(!q.empty() && dist[q.front()] == i) {
-				int cur = q.front();
-				q.pop();
-				for(auto x : p[cur]) {
-					if(dist[x] == inf) {
-						dist[x] = dist[cur] + 1;
-						q.push(x);
-					}
+		
+		for(int i=2;i*i<=1000;++i) {
+			if(!ok[i]) {
+				ok[i] = i;
+				for(int j=i*i;j <= 1000; j += i) {
+					if(ok[j] == 0) ok[j] = i;
 				}
 			}
 		}
-		if(n==1) {
-			cout << "0\n";
-			continue;
+		vector<int> color(1005,0), res(n+1);
+		unordered_set<int> st;
+		int d = 0;
+		for(int i=1;i<=n;++i) {
+			if(st.count(ok[a[i]]) == 0) {
+				color[ok[a[i]]] = ++d;
+			}
+			res[i] = color[ok[a[i]]];
+			st.insert(ok[a[i]]);
 		}
-		for(int i=1;i<=n;++i) ans += (dist[i] > k);
-		cout << ans << "\n";
+		
+		cout << d << "\n";
+		for(int i=1;i<=n;++i) cout << res[i] << " ";
+		cout << "\n";
 	}
 	
 	
