@@ -16,27 +16,38 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e4+5;
+const int MAXN1 = 1e3+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int l1,l2,l3,c1,c2,c3;
-int n;
-int s,t;
-int f[MAXN1];
-int dp[MAXN1];
+int n,lim,des;
+int w[MAXN1],v[MAXN1];
+double dp[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> l1 >> l2 >> l3 >> c1 >> c2 >> c3;
-	cin >> n >> s >> t;
-	for(int i=2;i<=n;++i) {
-		int x;
-		cin >> x;
-		f[i] = f[i-1] + x;
+	cin >> n >> lim >> des;
+	
+	for(int i=1;i<=n;++i) {
+		cin >> w[i] >> v[i];
+	}	
+	dp[0] = 0.0;
+	
+	for(int i=1;i<=n;++i) {
+		int cost = v[i],sum = w[i];
+		dp[i] = des/(1.0*v[i]) + dp[i-1]; 
+		for(int j=i-1;j>=1;--j) {
+			sum += w[j];
+			if(sum > lim) break;
+			cost = min(cost, v[j]);
+			dp[i] = min(dp[i], des/(1.0*cost) + dp[j-1]);
+		}
+		db(dp[i]);
+		cerr << "\n";
 	}
 	
+	cout << fixed << setprecision(15) << dp[n];
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
