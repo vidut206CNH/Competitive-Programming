@@ -34,7 +34,7 @@ int getRand(int l,int r) {
 }
 
 
-
+int a[MAXN1];
 
 signed main() {
 	fast_cin();
@@ -44,8 +44,12 @@ signed main() {
 	int l = getRand(1,(int)1e7);
 	int r = getRand(l, l*l);
 	cout << l << " " << r << "\n";
-	
 
+  for(int i=1;i<=n;++i) {
+    cin >> a[i];
+  }
+
+  
 	#ifndef LOCAL_DEFINE
 	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
 	#endif

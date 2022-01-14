@@ -16,14 +16,25 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
+
+int n;
+vector<int> E[MAXN1];
+int dp[MAXN1];
 
 
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i=1;i < n;++i) {
+		int u,v;
+		cin >> u >> v;
+		E[u].push_back(v);
+		E[v].push_back(u);
+	}
 	
 	
 	

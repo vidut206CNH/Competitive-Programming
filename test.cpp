@@ -21,58 +21,23 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
-int t,n,k;
-vector<int> dist(2*MAXN1);
-int g[2*MAXN1];
+int n;
+int a[MAXN1];
 
 
 signed main() {
 	fast_cin();
 	
-	cin >> t;
-	
-	while(t--) {
-		cin >> n >> k;
-		dist.assign(n+1, inf);
-		vector<int> p[n+1];
-		for(int i=1;i<n;++i) {
-			int u,v;
-			cin >> u >> v;
-			p[u].push_back(v);
-			p[v].push_back(u);
-		}
-		
-		queue<int> q;
-		
-		for(int i=1;i<=n;++i) {
-			g[i] = sz(p[i]);
-			if(g[i] == 1) {
-				dist[i] = 1;
-				q.push(i);
-			}
-		}
-		int ans = 0;
-		for(int i=1;i<=k;++i) {
-			if(q.empty()) break;
-			while(!q.empty() && dist[q.front()] == i) {
-				int cur = q.front();
-				q.pop();
-				for(auto x : p[cur]) {
-					if(dist[x] == inf) {
-						dist[x] = dist[cur] + 1;
-						q.push(x);
-					}
-				}
-			}
-		}
-		if(n==1) {
-			cout << "0\n";
-			continue;
-		}
-		for(int i=1;i<=n;++i) ans += (dist[i] > k);
-		cout << ans << "\n";
-	}
-	
+  cin >> n;
+
+  for(int i=1;i<=n;++i) {
+    cin >> a[i];
+  }
+
+  sort(a+1,a+n+1);
+
+  for(int i=1;i<=n;++i) cout << a[i];
+  
 	
 	
 	#ifndef LOCAL_DEFINE
