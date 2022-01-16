@@ -11,71 +11,50 @@ using namespace std;
 #define lcm(a,b) (a/gcd(a,b)*b)
 #define sz(x) (int)(x.size())
 #define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define INF 2e18
-#define db(x) cerr << "[" << "Line " << __LINE__ << " -- " << (#x) << " : " << x << "] "
+#define db(x) cerr << "[" << "Line " << __LINE__ << " : " << (#x) << " = " << x << "] "
 
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
 const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
+const int inf = 1e18;
+
 
 int a[MAXN1];
+int f[MAXN1];
+int n,t,k;
+
 
 signed main() {
 	fast_cin();
 	
-	
-	int t;
 	cin >> t;
+	
+	
 	while(t--) {
-		int n,k,sum = 0;
 		cin >> n >> k;
 		for(int i=1;i<=n;++i) {
 			cin >> a[i];
-			sum += a[i];
 		}
 		
-		if(n == 1) {
-			cout << max(0LL, sum - k) << "\n";
+		sort(a+1,a+n+1,greater<int>());
+		for(int i=1;i<=n;++i) {
+			f[i] = f[i-1] + a[i];
+		}
+		if(f[n] <= k) {
+			cout << "0\n";
 			continue;
 		}
-		
-		if(sum <= k) {	
-			cout << 0 << "\n";
-			continue;
+		int res = inf;
+		for(int i=0;i<n;++i) {
+			int d = (k - (f[n - 1] - f[i]));
+			int g = d/(i+1);
+			if(d < 0 && d%(i+1) != 0) --g;
+			res = min(res, i + a[n] - g);
 		}
-		
-		sort(a+1,a+n+1, greater<int>());
-		
-		int l=1,r=1e15	;
-		int ans = INF;
-		
-		while(l <= r) {
-			int mid = (l+r) >> 1;
-			
-			int tmp = sum - mid;
-			int id = 1;
-			while(id < n && tmp > k) {
-				tmp -= (a[id] - a[n] + mid);
-				id++;
-			}
-			id--;
-			
-			if(tmp > k) {
-				l = mid + 1;
-				continue;
-			}
-			
-			if(tmp <= k) ans = min(ans, id + mid);
-			
-			if(tmp - (id - 1) + (a[id]))
-			
-			
-		}
-		cout << ans << "\n";	
-	}
-	
+		cout << res << "\n";
+	}	
 	
 	
 	

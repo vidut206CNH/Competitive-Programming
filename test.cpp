@@ -21,25 +21,16 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
-int n;
-int a[MAXN1];
-
-
 signed main() {
 	fast_cin();
+	int n;
+	cin >> n;
+	vector<int> a(n);	
 	
-  cin >> n;
-
-  for(int i=1;i<=n;++i) {
-    cin >> a[i];
-  }
-
-  sort(a+1,a+n+1);
-
-  for(int i=1;i<=n;++i) cout << a[i];
-  
-	
-	
+	cout << "200000 1\n";
+	for(int i=1;i<=200000;++i) {
+		cout << (int)1e9 << " ";
+	}
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
     #endif

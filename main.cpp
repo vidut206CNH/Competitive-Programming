@@ -2,17 +2,18 @@
 
 using namespace std;
 
+const int N = 1e5 + 5;
+
+
+int a[N];
+int n;
+
+
 int main() {
-
-	int n;
 	cin >> n;
-	for(int i=1;i<=2*n;++i) {
-		cout << i << "\n";
+	
+	for(int i=1;i<=n;++i) {
+		cout << i << " ";
 	}
-  for(int i=1;i<=n;++i) {
-    cin >> a[i];
-  }
-  
-	return 0;
-
+	cerr << "\n";
 }
