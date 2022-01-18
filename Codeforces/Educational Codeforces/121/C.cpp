@@ -20,11 +20,37 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
+int p[105];
+int h[105];
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		int n;
+		cin >> n;
+		for(int i=1;i<=n;++i) cin >> p[i];
+		for(int i=1;i<=n;++i) cin >> h[i];
+		int sum = 0;
+		for(int i=1;i<=n;++i) {
+			for(int j=i-1;j>=0;--j) {
+				if(h[j] + p[i] - p[j] >= h[i]) {
+					if(p[i] - p[j] >= h[i]) {
+						sum += (h[i] + 1)*h[i]/2;
+						break;
+					}
+					int d = max(h[i],h[i-1] + p[i] - p[i-1]);
+					sum += ((d + 1)*d/2 - (h[i-1]+1)*h[i-1]/2);
+					h[i] = d;
+					break;
+				}
+			}
+		}
+		cout << sum << "\n";
 		
+	}	
 	
 	
 	#ifndef LOCAL_DEFINE

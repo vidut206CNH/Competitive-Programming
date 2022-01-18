@@ -20,11 +20,37 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
 
 signed main() {
 	fast_cin();
-	
 		
+	cin >> t;
+	while(t--) {
+		string s;
+		cin >> s;
+		
+		vector<int> a(305);
+		for(int i=0;i<sz(s);++i) {
+			a[(int)s[i]]++;
+		}
+		string res = "";
+		for(int i='a';i<='z';++i) {
+			if(a[i] == 2) {
+				res += (char)i;
+				a[i] = 0;
+			}
+		}
+		res = res + res;
+		cout << res;
+		for(int i='a';i<='z';++i) {
+			for(int m=1;m<=a[i];++m) {
+				cout << (char)i;
+			}
+		}
+		cout << "\n";
+	}
+	
 	
 	
 	#ifndef LOCAL_DEFINE

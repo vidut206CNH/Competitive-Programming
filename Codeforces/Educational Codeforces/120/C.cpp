@@ -38,21 +38,20 @@ signed main() {
 			cin >> a[i];
 		}
 		
-		sort(a+1,a+n+1,greater<int>());
+		sort(a+1,a+n+1);
 		for(int i=1;i<=n;++i) {
 			f[i] = f[i-1] + a[i];
 		}
-		if(f[n] <= k) {
-			cout << "0\n";
-			continue;
-		}
 		int res = inf;
 		for(int i=0;i<n;++i) {
-			int d = (k - (f[n - 1] - f[i]));
-			int g = d/(i+1);
-			if(d < 0 && d%(i+1) != 0) --g;
-			res = min(res, i + a[n] - g);
+			int sum = f[n - i] + a[1]*i;
+			int cur = i;
+			if(sum > k) {
+				cur += (sum - k + i)/(i+1);
+			}
+			res = min(res, cur);
 		}
+		
 		cout << res << "\n";
 	}	
 	
