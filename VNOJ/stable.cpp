@@ -16,49 +16,70 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 1e4+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
+int n,m,s;
 vector<int> adj[MAXN1];
-int f[MAXN1];
-bool visited[MAXN1];
+bool f[MAXN1], visited[MAXN1];
+int par[MAXN1];
+int d[MAXN1];
 
-void dfs(int cur = 1, int par = 0) {
+void bfs() {
+	queue<int> q;
+	q.push(s);
 	
-	if(visited[cur]) return;
-	visited[cur] = 1;
+	d[s] = 1;
 	
-	int prod = 1;
-	bool child = 0;
-
-	for(auto x : adj[cur]) {
-		if(x == par) continue;
-
-		dfs(x, cur);
+	while(!q.empty()) {
+		int cur = q.front();
 		
-		prod *= (f[x]);
+		q.pop();
+		
+		for(auto x : adj[cur]) {
+
+			
+			if(d[x] == 0) {
+				
+				f[x] |= f[cur];	
+				d[x] = d[cur] + 1;
+				par[x] = cur;
+				q.push(x);
+				
+			}
+			
+			
+			else if(d[x] == d[cur] + 1 && par[x] != cur) {
+				f[x] = true;
+			}
+			
+		}
+		
+/*		db(cur);
+		db(f[cur]);
+		cerr << "\n";*/
 	}
-	
-	f[cur] = prod;
-	cerr << cur << " " << f[cur] << "\n"; 
 }
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m;
+	cin >> n >> m >> s;
 	for(int i=1;i<=m;++i) {
 		int u,v;
 		cin >> u >> v;
-		adj[u].push_back(v);
-		adj[v].push_back(u);
+		adj[u].emplace_back(v);
 	}
 	
-	dfs();
+	bfs();
+	int res = 0;
 	
+	for(int i=1;i<=n;++i) {
+		res += f[i];
+	}	
+	
+	cout << res;
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

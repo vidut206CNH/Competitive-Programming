@@ -16,48 +16,51 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 1005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
-vector<int> adj[MAXN1];
-int f[MAXN1];
+
+int n,q;
+vector<pii > adj[MAXN1];
 bool visited[MAXN1];
+int sum[MAXN1];
 
-void dfs(int cur = 1, int par = 0) {
+void dfs(int node) {
 	
-	if(visited[cur]) return;
-	visited[cur] = 1;
+	visited[node] = 1;
 	
-	int prod = 1;
-	bool child = 0;
-
-	for(auto x : adj[cur]) {
-		if(x == par) continue;
-
-		dfs(x, cur);
-		
-		prod *= (f[x]);
+	for(auto x : adj[node]) {
+		if(visited[x.fi]) continue;
+		sum[x.fi] = sum[node] + x.se;
+		dfs(x.fi);
 	}
 	
-	f[cur] = prod;
-	cerr << cur << " " << f[cur] << "\n"; 
 }
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m;
-	for(int i=1;i<=m;++i) {
-		int u,v;
-		cin >> u >> v;
-		adj[u].push_back(v);
-		adj[v].push_back(u);
+	cin >> n >> q;
+	for(int i=1;i<n;++i) {
+		int u,v,cost;
+		cin >> u >> v >> cost;
+		adj[u].push_back({v,cost});
+		adj[v].push_back({u, cost});
 	}
 	
-	dfs();
+	for(int i=1;i<=q;++i) {
+		int u,v;
+		cin >> u >> v;
+		memset(visited, false, sizeof visited);
+		memset(sum, 0, sizeof sum);
+		dfs(u);
+		
+		cout << sum[v] << "\n";
+	}
+	
+	
+	
 	
 	
 	#ifndef LOCAL_DEFINE

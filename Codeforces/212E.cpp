@@ -16,41 +16,47 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 5005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
+int n;
 vector<int> adj[MAXN1];
-int f[MAXN1];
-bool visited[MAXN1];
+bool poss[MAXN1];
+vector<int> f(MAXN1, 1);
+
 
 void dfs(int cur = 1, int par = 0) {
 	
-	if(visited[cur]) return;
-	visited[cur] = 1;
 	
-	int prod = 1;
-	bool child = 0;
-
+	vector<bool> ok(n+1,false);
+	
+	ok[0] = 1;
+	
 	for(auto x : adj[cur]) {
 		if(x == par) continue;
-
+		
 		dfs(x, cur);
 		
-		prod *= (f[x]);
+		f[cur] += f[x];
+		
+		int g = f[x];
+		
+		for(int val = n - 2 - g; val >= 0; --val) {
+			if(ok[val]) ok[val + g] = 1;
+		}
 	}
 	
-	f[cur] = prod;
-	cerr << cur << " " << f[cur] << "\n"; 
+	for(int i=1;i<=n - 2;++i) {
+		poss[i] |= (ok[i]);
+	}
 }
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m;
-	for(int i=1;i<=m;++i) {
+	cin >> n;
+	for(int i=1;i<n;++i) {
 		int u,v;
 		cin >> u >> v;
 		adj[u].push_back(v);
@@ -59,6 +65,20 @@ signed main() {
 	
 	dfs();
 	
+	for(int i=1;i<=n-2;++i) {
+		if(poss[i]) poss[n - 1 - i] = true;
+	}
+	int cnt = 0;
+	vector<pii > res;
+	for(int i=1;i<=n-2;++i) {
+		if(poss[i]) {
+			cnt++;
+			res.push_back({i, n - 1 - i});
+		}
+	}
+	
+	cout << cnt << "\n";
+	for(auto x : res) cout << x.fi << " " << x.se << "\n";
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

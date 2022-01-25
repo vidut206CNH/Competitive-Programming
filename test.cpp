@@ -16,47 +16,33 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1 << 20;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 1e15;
+const int inf = 1e18;
 
-int n;
-int a[25];
-vector< vector<int> > dp(2, vector<int>(MAXN1));
-
+int n,k;
+vector<int> woman, man;
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> k;
+
+
+	for(int i=1;i<=n;++i) {
+		int x;
+		cin >> x;
+		if(x > 0) man.push_back(x);
+		else woman.push_back(-x);
+	}
 	
-	cin >> n;
+	sort(man.begin(), man.end());
+	int res = 0;
+	for(auto x : woman) {
+		res += (upper_bound(man.begin(), man.end(), x + k) - lower_bound(man.begin(), man.end(), x));
+	}
 	
-	for(int i=0;i<n;++i) cin >> a[i];
-	dp[0].assign(MAXN1, inf);
-	dp[1].assign(MAXN1, -inf);
-	dp[0][0] = 0;
-	dp[1][0] = 0;
-	int lim = 1 << n;
-	
-	for(int state = 1;state < lim;++state) {
-		if(__builtin_popcountll(state)%2) continue;
-		
-		for(int i=0;i<n;++i) {
-			if(!(state >> i & 1)) continue;
-			for(int j=i+1;j<n;++j) {
-				if(!(state >> j & 1)) continue;
-				int cur = ((state&(~(1 << i)))&(~(1 << j)));
-				dp[0][state] = min(dp[0][cur] + (a[i]^a[j]), dp[0][state]);
-/*				db(dp[0][state]);
-				db(state);
-				cerr << "\n";*/
-				dp[1][state] = max(dp[1][cur] + (a[i]^a[j]), dp[1][state]);
-			}
-		}
-		
-	} 
-	
-	cout << dp[0][lim - 1] << " " << dp[1][lim - 1];
+	cout << res;
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

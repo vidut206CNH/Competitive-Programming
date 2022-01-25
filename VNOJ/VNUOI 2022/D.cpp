@@ -20,44 +20,50 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
-vector<int> adj[MAXN1];
-int f[MAXN1];
-bool visited[MAXN1];
+int t,alp;
+string n;
+int k;
 
-void dfs(int cur = 1, int par = 0) {
-	
-	if(visited[cur]) return;
-	visited[cur] = 1;
-	
-	int prod = 1;
-	bool child = 0;
-
-	for(auto x : adj[cur]) {
-		if(x == par) continue;
-
-		dfs(x, cur);
-		
-		prod *= (f[x]);
+bool div(string &s, int d) {
+	string tmp = s;
+	int rem = 0;
+	for(int i=0;i<sz(tmp);++i) {
+		int g = tmp[i] - '0' + rem*10;
+		tmp[i] = char(g/d + '0');
+		rem = g%d;
 	}
+	if(rem) return false;
+	while(tmp[0] == '0') tmp.erase(tmp.begin());
+	s = tmp;
+	return true;
+}
+
+void solve() {
+	cin >> n >> k;
+	string res = "";
 	
-	f[cur] = prod;
-	cerr << cur << " " << f[cur] << "\n"; 
+	for(int i=1;i<=k;++i) {
+		if(n == "1") {
+			res = '1' + res;
+			continue;
+		}
+		for(int d = 9; d>= 1;--d) {
+			if(div(n,d)) {
+				res = char(d + '0') + res;
+				break;
+			}		
+		}
+	}
+	cout << res << "\n";
 }
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m;
-	for(int i=1;i<=m;++i) {
-		int u,v;
-		cin >> u >> v;
-		adj[u].push_back(v);
-		adj[v].push_back(u);
+	cin  >> t >> alp;
+	while(t--) {
+		solve();
 	}
-	
-	dfs();
 	
 	
 	#ifndef LOCAL_DEFINE

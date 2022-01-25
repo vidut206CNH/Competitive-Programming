@@ -16,14 +16,44 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
+int n,m;
+vector<int> adj[MAXN1];
+bool visited[MAXN1];
+
+void dfs(int x) {
+	visited[x] = true;
+	for(auto v : adj[x]) {
+		if(visited[v]) continue;
+		dfs(v);
+	}
+}
+
 signed main() {
 	fast_cin();
 	
+	cin >> n >> m;
+	for(int i=1;i<=m;++i) {
+		int u,v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	
+	int res = 0;
+	
+	for(int i=1;i<=n;++i) {
+		if(visited[i] == false) {
+			res++;
+			dfs(i);
+		}
+	}
+	
+	cout << res + m - n;
 	
 	
 	
