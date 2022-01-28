@@ -20,12 +20,42 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n;
+vector<int> adj[MAXN1];
+int res[MAXN1];
+int sum = 0;
+
+void dfs(int u, int p) {
+	
+	for(auto v : adj[u]) {
+		if(v == p) continue;
+		
+		dfs(v, u);
+	}
+	
+	if(res[u] == u) {
+		sum += 2;
+		if(p != 0) swap(res[u], res[p]);
+		else swap(res[u], res[adj[u].back()]);
+	}
+}
 
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i=1;i<n;++i) {
+		int u,v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	for(int i=1;i<=n;++i) res[i] = i;
+	dfs(1, 0);
 	
-	
+	cout << sum << "\n";
+	for(int i=1;i<=n;++i) cout << res[i] << " ";
+		
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

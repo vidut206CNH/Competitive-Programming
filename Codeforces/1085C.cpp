@@ -20,12 +20,34 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+pii p[3];
 
 signed main() {
 	fast_cin();
 	
+	for(int i=0;i<3;++i) {
+		cin >> p[i].fi >> p[i].se;
+	}
 	
+	sort(p, p + 3);
+	set<pii > res;
+	int l = min({p[0].se, p[1].se, p[2].se});
+	int r = max({p[0].se, p[1].se, p[2].se});
+	int m = p[1].fi;
 	
+	for(int i=l;i <= r;++i) {
+		res.insert({m,i});
+	}
+	
+	for(int i=p[0].fi; i < m; ++i) {
+		res.insert({i, p[0].se});
+	}
+	for(int i=p[2].fi; i > m;--i) {
+		res.insert({i, p[2].se});
+	}
+	
+	cout << sz(res) << "\n";
+	for(auto x : res) cout << x.fi << " " << x.se << "\n";
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

@@ -23,6 +23,8 @@ const int inf = 1e18;
 int t,alp;
 string n;
 int k;
+vector<int> prime = {2,3,5,7};
+bool cnt[10];
 
 bool div(string &s, int d) {
 	string tmp = s;
@@ -41,14 +43,15 @@ bool div(string &s, int d) {
 void solve() {
 	cin >> n >> k;
 	string res = "";
-	
+	int g = 9;
 	for(int i=1;i<=k;++i) {
 		if(n == "1") {
 			res = '1' + res;
 			continue;
 		}
-		for(int d = 9; d>= 1;--d) {
+		for(int d = g; d>= 1;--d) {
 			if(div(n,d)) {
+				g = d;
 				res = char(d + '0') + res;
 				break;
 			}		

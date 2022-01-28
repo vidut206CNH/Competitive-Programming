@@ -24,6 +24,22 @@ const int inf = 1e18;
 signed main() {
 	fast_cin();
 	
+	int n;
+	priority_queue<int, vector<int>, greater<int> > p;
+	int sum = 0;
+	cin >> n;
+	for(int i=1;i<=n;++i) {
+		int x;
+		cin >> x;
+		sum += x;
+		p.push(x);
+		while(!p.empty() && sum < 0) {
+			sum -= p.top();
+			p.pop();
+		}
+	}
+	
+	cout << sz(p);
 	
 	
 	
