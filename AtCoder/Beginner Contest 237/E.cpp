@@ -16,14 +16,33 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
+
+int n,m;
+vector<int> adj[MAXN1];
+vector<int> dist(MAXN1, -inf);
+int val[MAXN1];
+
+void dijk() {
+	
+}
 
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> m;
+	for(int i=1;i<=n;++i) {
+		cin >> val[i];
+	}
+	for(int i=1;i<=m;++i) {
+		int u,v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
 	
 	
 	

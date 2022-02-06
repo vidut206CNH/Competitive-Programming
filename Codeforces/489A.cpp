@@ -16,15 +16,33 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 3005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n;
+int a[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i=0;i<n;++i) cin >> a[i];
+	vector<pii > res;
+	for(int pos = 0; pos < n; ++pos) {
+		int minn = a[pos],id = pos;
+		for(int j = pos + 1; j < n; ++j) {
+			if(a[j] < minn) {
+				minn = a[j];
+				id = j;
+			}
+		}
+		if(id != pos) res.push_back({pos, id});
+		swap(a[pos], a[id]);
+	}
 	
+	cout << sz(res) << "\n";
+	for(auto x : res) cout << x.fi << " " << x.se << "\n";
 	
 	
 	#ifndef LOCAL_DEFINE

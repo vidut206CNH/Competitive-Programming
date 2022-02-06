@@ -21,10 +21,28 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
+int m,n;
+
 signed main() {
 	fast_cin();
 	
+	cin >> m >> n;
+	vector<vector<int> > res(n + 1, vector<int>(m + 1));
+	for(int i=1;i<=m;++i) {
+		for(int j=1;j <= n;++j) {
+			int c;
+			cin >> c;
+			res[j][i] = c;
+		}
+	}
 	
+	for(int i=1;i<=n;++i) {
+		for(int j=1;j<=m;++j) {
+			cout << res[i][j] << " ";
+		}
+		
+		cout << "\n";
+	}
 	
 	
 	#ifndef LOCAL_DEFINE

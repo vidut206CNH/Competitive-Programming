@@ -20,13 +20,39 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+string s;
 
 signed main() {
 	fast_cin();
 	
+	deque<char> d;
+	char c;
+	while(cin >> c) {
+		d.push_back(c);
+	}
 	
+	while(d.size() > 2 && d.back() == d.front() && d.front() == 'a') {
+		d.pop_back();
+		d.pop_front();
+	}
 	
+	while(!d.empty() && d.back() == 'a') d.pop_back();
 	
+	while(!d.empty()) {
+		if(d.size() == 1) {
+			cout << "Yes";
+			exit(0);
+		}
+		
+		if(d.front() != d.back()) {
+			cout << "No";
+			exit(0);
+		}
+		d.pop_back();
+		d.pop_front();
+	}
+	
+	cout << "Yes";
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
     #endif

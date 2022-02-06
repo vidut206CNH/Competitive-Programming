@@ -20,9 +20,39 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+char a[3][3];
+char ans[3][3];
+
+int cnta[305];
+int cntans[305];
 
 signed main() {
 	fast_cin();
+	for(int i=0;i<3;++i) {
+		for(int j=0;j<3;++j) {
+			cin >> a[i][j];
+			cnta[a[i][j]]++;
+		}
+	}
+	int green = 0, yellow = 0;
+	
+	for(int i=0;i<3;++i) {
+		for(int j=0;j<3;++j) {
+			cin >> ans[i][j];
+			if(ans[i][j] != a[i][j]) cntans[ans[i][j]]++;
+			else {
+				cnta[a[i][j]]--;
+				green++;
+			}
+		}
+	}
+	
+	for(int i = (int)'A'; i <= (int)'Z'; ++i) {
+		yellow += min(cnta[i], cntans[i]);
+	}
+	
+	cout << green << "\n" << yellow;
+	
 	
 	
 	

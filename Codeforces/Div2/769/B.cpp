@@ -20,10 +20,41 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t,n;
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		vector<int> res;
+		int m = 0, p = 1;
+		while(p < n) {
+			++m;
+			p <<= 1;
+		}
+		--m;
+		for(int i=n - 1; i>= (1 << m); --i) {
+			res.push_back(i);
+		}
+		res.push_back(0);
+		
+		for(int i=m;i >= 1; --i) {
+			vector<int> tmp;
+			for(int val = (1 << i) - 1; val >= (1 << (i - 1)); --val) {
+				tmp.push_back(val);
+			}
+			if((m - i)%2 == 0) reverse(tmp.begin(), tmp.end());
+			for(auto x : tmp) res.push_back(x);
+			
+		}
+		
+		reverse(res.begin(), res.end());
+		
+		for(auto x : res) cout << x << " ";
+		cout << "\n";
+	}
 	
 	
 	

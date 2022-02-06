@@ -16,16 +16,30 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 5e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-
+int n;
+char a[MAXN1];
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i=1;i<=n;++i) cin >> a[i];
+	deque<int> d;
+	d.push_back(n);
+	for(int i=n;i>=1;--i) {
+		if(a[i] == 'L') {
+			d.push_back(i-1);
+		} else d.push_front(i-1);
+	}
 	
 	
+	while(!d.empty()) {
+		cout << d.front() << " ";
+		d.pop_front();
+	}
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

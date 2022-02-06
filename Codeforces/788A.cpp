@@ -20,12 +20,24 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-
+int n;
+int dp[2][MAXN1];
+int a[MAXN1];
 signed main() {
 	fast_cin();
 	
+	cin >> n;
 	
+	int res = 0;
+	for(int i=1;i<=n;++i) cin >> a[i];
 	
+	for(int i=1;i<n;++i) {
+		dp[0][i] = dp[1][i-1] + abs(a[i] - a[i+1]);
+		if(i > 1) dp[1][i] = max(0LL, dp[0][i-1] - abs(a[i] - a[i+1]));
+		res = max({res, dp[0][i], dp[1][i]});
+	}
+	
+	cout << res;
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

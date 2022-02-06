@@ -20,11 +20,29 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
 
 signed main() {
 	fast_cin();
 	
-	
+	cin >> t;
+	while(t--) {
+		int a,b;
+		cin >> a >> b;
+		int res =  b - a;
+		for(int i=a;i<b;++i) {
+			int d = 0;
+			for(int j = 20; j >= 0; --j) {
+				if((i >> j & 1) && !(b >> j & 1)) {
+					d |= (1 << j);
+					break;
+				}
+				if((i >> j & 1) || (b >> j & 1)) d |= (1 << j);
+			}
+			res = min(res, i + (d|i) + (1 - a - b));
+		}
+		cout << res << "\n";
+	}
 	
 	
 	#ifndef LOCAL_DEFINE

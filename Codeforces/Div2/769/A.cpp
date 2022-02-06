@@ -20,11 +20,20 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
 
 signed main() {
 	fast_cin();
 	
-	
+	cin >> t;
+	while(t--) {
+		int n;
+		string s;
+		cin >> n >> s;
+		if(n == 1 || (n == 2 && s[0] + s[1] == '1' + '0')) {
+			cout << "YES\n";
+		} else cout << "NO\n";
+	}
 	
 	
 	#ifndef LOCAL_DEFINE

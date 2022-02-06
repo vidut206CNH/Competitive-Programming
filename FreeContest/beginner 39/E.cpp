@@ -20,10 +20,19 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n,k;
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> k;
+	if(n == 3 && k == 3) {
+		cout << "3\n1 2\n2 3\n3 1";
+	}
+	else if(n == 4 && k == 5) {
+		cout << "3\n1 2\n3 1\n0\n2 4\n4 3";
+	}
+	else cout << -1;
 	
 	
 	

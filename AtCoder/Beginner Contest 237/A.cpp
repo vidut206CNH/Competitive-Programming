@@ -3,7 +3,7 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
+//#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -21,10 +21,16 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
+
 signed main() {
 	fast_cin();
 	
-	
+	long long n;
+	cin >> n;
+	int m = n;
+	if((long long)m == n) {
+		cout << "Yes";
+	} else cout << "No";
 	
 	
 	#ifndef LOCAL_DEFINE

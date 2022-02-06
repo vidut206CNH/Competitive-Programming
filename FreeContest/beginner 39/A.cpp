@@ -21,9 +21,25 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
+int n;
+
 signed main() {
 	fast_cin();
+	cin >> n;
+	for(int i=n;i <= MAXN1;++i) {
+		int tmp = i;
+		int sum = 0;
+		while(tmp) {
+			sum += (tmp%10);
+			tmp /= 10;
+		}
+		if(sum%4==0) {
+			cout << i;
+			exit(0);
+		}
+	}
 	
+	cout << 0;
 	
 	
 	

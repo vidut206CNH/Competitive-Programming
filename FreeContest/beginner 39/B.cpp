@@ -20,11 +20,27 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n;
+int a[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i=1;i<=n;++i) {
+		cin >> a[i];
+	}
 	
+	int cnt = 0;
+	int maxx = a[n];
+	for(int i=n;i>=1;--i) {
+		if(maxx < a[i]) {
+			maxx = a[i];
+			cnt++;
+		}
+	}
+	
+	cout << cnt;
 	
 	
 	#ifndef LOCAL_DEFINE

@@ -20,10 +20,60 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	while(t--) {
+		int n,k;
+		cin >> n >> k;
+		vector<pii > a(n);
+		vector<bool> ok(n);
+		for(int i=0;i<n;++i) {
+			cin >> a[i].fi;
+			a[i].se = i;
+		}
+		
+		sort(a.begin(), a.end());
+		int minn = inf, id;
+		int len = n - (n - k)/2;
+		for(int i = len-1;i<n;++i) {
+			if(a[i].fi - a[i - len + 1].fi < minn) {
+				minn = a[i].fi - a[i - len +1].fi;
+				id = i;
+			}
+		}
+		int x,y;
+		x = a[id - len + 1].fi;
+		y = a[id].fi;
+		
+		for(int i = id;i > id - len;--i) {
+			int pos = a[i].se;
+			ok[pos] = true;
+		}
+		cout << x << " " << y << "\n";
+		
+		int l = 0,r = 0,cnt = 0;
+		while(r < n) {
+			cnt += (ok[r]);
+			
+			if(k == 1) {
+				cout << l + 1 << " " << n << '\n';
+				break;
+			}
+			if(r - l + 1 < 2*cnt) {
+				cout << l + 1 << " " << r + 1 << "\n";
+				cnt = 0;
+				l = r + 1;
+				--k;
+			}
+			++r;
+		}
+		
+		cout << "\n";
+	}
 	
 	
 	
