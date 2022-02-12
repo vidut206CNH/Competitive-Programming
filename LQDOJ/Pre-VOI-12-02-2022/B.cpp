@@ -16,53 +16,61 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 105;
+const int MAXN1 = 2005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 int n;
 int a[MAXN1];
-int dp[2][MAXN1];
+
+
+void sub1() {
+	int res = 0;
+	
+	for(int mask = 1; mask < (1 << n); ++mask) {
+		if(__builtin_popcount(mask) == 1) continue;
+		vector<int> d;
+		for(int pos = 0; pos < n; ++pos) {
+			if(mask >> pos & 1) {
+				d.push_back(a[pos + 1]);
+			}
+		}
+		int max1 = 0, max2 = 0;
+		bool can = true;
+		
+		for(auto x : d) {
+			if(max1 < max2) swap(max1, max2);
+			if(x > max1) {
+				max1 = x;
+				continue;
+			}
+			if(x > max2) {
+				max2 = x;
+				continue;
+			}
+			
+			can = false;
+			break;
+		}
+		
+		if(can) {
+			res++;
+		}
+	}
+	
+	cout << res << "\n";
+}
 
 signed main() {
 	fast_cin();
 	
 	cin >> n;
-	
 	for(int i = 1; i <= n; ++i) {
 		cin >> a[i];
 	}
 	
-	
-	
+	sub1();
 
-	
-	memset(dp, -1, sizeof dp);
-	for(int val = 1; val <= 100; ++val) dp[1][val] = abs(a[1] - val);
-		
-	for(int pos = 2; pos <= n; ++pos) {
-		bool t = pos&1;
-		bool u = !t;
-/*		db(u);
-		db(t);
-		cerr << "\n";*/
-		memset(dp[t], 0x3f, sizeof dp[t]);
-		
-		for(int pre = 1; pre <= 100; ++pre) {
-			for(int cur = pre + 1; cur <= 100; ++cur) {
-				dp[t][cur] = min(dp[t][cur], dp[u][pre] + abs(a[pos] - cur));
-/*				db(dp[t][cur]);
-				db(dp[u][pre]);
-				cerr << "\n";*/
-			}
-		}
-	}
-	
-	int res = 1e9;
-	for(int i = 1; i <= 100; ++i) res = min(dp[n&1][i], res);
-	
-	
-	cout << res;
 	
 	
 	

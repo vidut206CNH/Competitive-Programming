@@ -16,51 +16,41 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 105;
+const int MAXN1 = 1e7+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n;
-int a[MAXN1];
-int dp[2][MAXN1];
+int a,b;
+int f[MAXN1];
+
 
 signed main() {
 	fast_cin();
 	
-	cin >> n;
+	cin >> a >> b;
+	int res = 0;
 	
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
-	}
-	
-	
-	
-
-	
-	memset(dp, -1, sizeof dp);
-	for(int val = 1; val <= 100; ++val) dp[1][val] = abs(a[1] - val);
+	for(int i=1;i*i<=b;++i) {
+		int low = (a + i - 1)/i;
+		int high = b/i;
+		low = max({low, 2LL, i});
 		
-	for(int pos = 2; pos <= n; ++pos) {
-		bool t = pos&1;
-		bool u = !t;
-/*		db(u);
-		db(t);
-		cerr << "\n";*/
-		memset(dp[t], 0x3f, sizeof dp[t]);
-		
-		for(int pre = 1; pre <= 100; ++pre) {
-			for(int cur = pre + 1; cur <= 100; ++cur) {
-				dp[t][cur] = min(dp[t][cur], dp[u][pre] + abs(a[pos] - cur));
-/*				db(dp[t][cur]);
-				db(dp[u][pre]);
-				cerr << "\n";*/
-			}
+		for(;low <= high; low++) {
+			f[i*low] += i;
+			if(i != 1) f[i*low] += low;
+/*			db(i*low);
+			db(i);
+			cerr << '\n';*/
+			if(low == i) f[i*low] -= i;
 		}
+		
 	}
 	
-	int res = 1e9;
-	for(int i = 1; i <= 100; ++i) res = min(dp[n&1][i], res);
-	
+	for(int i = a; i <= b; ++i) {
+/*		db(f[i]);
+		cerr << "\n";*/
+		res += abs(i - f[i]);
+	}
 	
 	cout << res;
 	

@@ -16,55 +16,59 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 105;
+const int MAXN1 = 3e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
+const double eps = 1e-9;
 
-int n;
+int n,k;
 int a[MAXN1];
-int dp[2][MAXN1];
+double b[MAXN1];
+
 
 signed main() {
 	fast_cin();
 	
-	cin >> n;
+	freopen("rate.inp", "r", stdin);
+	freopen("rate.out", "w", stdout);
 	
-	for(int i = 1; i <= n; ++i) {
+	
+	cin >> n >> k;
+	
+	
+	for(int i=1;i<=n;++i) {
 		cin >> a[i];
 	}
 	
+	double low = 0, high = 1e6, res = 0;
 	
-	
-
-	
-	memset(dp, -1, sizeof dp);
-	for(int val = 1; val <= 100; ++val) dp[1][val] = abs(a[1] - val);
+	while(high - low > eps) {
+		double mid = (low + high)/2;
 		
-	for(int pos = 2; pos <= n; ++pos) {
-		bool t = pos&1;
-		bool u = !t;
-/*		db(u);
-		db(t);
-		cerr << "\n";*/
-		memset(dp[t], 0x3f, sizeof dp[t]);
-		
-		for(int pre = 1; pre <= 100; ++pre) {
-			for(int cur = pre + 1; cur <= 100; ++cur) {
-				dp[t][cur] = min(dp[t][cur], dp[u][pre] + abs(a[pos] - cur));
-/*				db(dp[t][cur]);
-				db(dp[u][pre]);
-				cerr << "\n";*/
-			}
+		for(int i = 1; i <= n; ++i) {
+			b[i] = a[i] - mid;
+			b[i] += b[i-1];
 		}
+		
+		double minn = 0;
+		bool can = false;
+		for(int i=k; i <= n; ++i) {
+			
+			minn = min(minn, b[i - k]);
+			
+			double sum = b[i] - minn;
+			
+			can |= (sum > 0.0);
+		}
+		
+		if(can) {
+			res = mid;
+			low = mid;
+		} else high = mid;
 	}
 	
-	int res = 1e9;
-	for(int i = 1; i <= 100; ++i) res = min(dp[n&1][i], res);
 	
-	
-	cout << res;
-	
-	
+	cout << fixed <<  setprecision(6) << res;
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

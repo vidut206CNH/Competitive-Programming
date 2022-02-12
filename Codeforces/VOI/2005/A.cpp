@@ -16,55 +16,40 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 105;
+const int MAXN1 = 15e3+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n;
+int n,k;
 int a[MAXN1];
-int dp[2][MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n;
+	cin >> n >> k;
 	
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
-	}
+	for(int i = 1; i <= n; ++i) cin >> a[i];
 	
+	int low = (-3e4)*(15e3), high = (3e4)*(15e3);
 	
-	
-
-	
-	memset(dp, -1, sizeof dp);
-	for(int val = 1; val <= 100; ++val) dp[1][val] = abs(a[1] - val);
+	while(low <= high) {
+		int mid = (low + high) >> 1;
 		
-	for(int pos = 2; pos <= n; ++pos) {
-		bool t = pos&1;
-		bool u = !t;
-/*		db(u);
-		db(t);
-		cerr << "\n";*/
-		memset(dp[t], 0x3f, sizeof dp[t]);
+		int cnt = 0;
+		bool bad = false;
 		
-		for(int pre = 1; pre <= 100; ++pre) {
-			for(int cur = pre + 1; cur <= 100; ++cur) {
-				dp[t][cur] = min(dp[t][cur], dp[u][pre] + abs(a[pos] - cur));
-/*				db(dp[t][cur]);
-				db(dp[u][pre]);
-				cerr << "\n";*/
+		for(int i=1;i<=n;) {
+			int j = i;
+			sum = 0;
+			cnt++;
+			while(j <= n && sum + a[j] <= mid && n - j >= k - cnt) {
+				sum += a[j];
+				++j;
 			}
+			
 		}
+		
 	}
-	
-	int res = 1e9;
-	for(int i = 1; i <= 100; ++i) res = min(dp[n&1][i], res);
-	
-	
-	cout << res;
-	
-	
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

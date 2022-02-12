@@ -13,7 +13,7 @@ int main() {
 	cin >> n;
 	
 	for(int i=1;i<=n;++i) {
-		cout << i << " ";
+		cin >> a[i];
+		cout << a[i];
 	}
-	cerr << "\n";
 }
