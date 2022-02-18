@@ -20,15 +20,30 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
+int n,x,y,z;
+int a[MAXN1];
+int b[MAXN1];
 
-void f(int remain, int num) {
+
+void bruteforce {
+	
+	vector<int> small, big;
+	for(int i = 1; i <= n; ++i) {
+		if(a[i] > b[i]) big.push_back(i);
+		if(a[i] < b[i]) small.push_back(i);
+	}
+	
+	
 	
 }
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> x >> y >> z;
+	
+	for(int i = 1; i <= n; ++i) cin >> a[i];
+	for(int i = 1; i <= n; ++i) cin >> b[i];
 	
 	
 	

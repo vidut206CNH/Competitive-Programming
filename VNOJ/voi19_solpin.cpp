@@ -30,14 +30,14 @@ int posx = 1, posy = 1;
 int get1(int u, int v) {
 	u = u + posx - 1;
 	v = v + posy - 1;
-	db(u);
+/*	db(u);
 	db(v);
-	cerr << "\n";
+	db(a[u][v]);
+	cerr << "\n";*/
 	return f[u][v] - f[posx - 1][v] - f[u][posy - 1] + f[posx - 1][posy - 1];
 }
 
 int get2(int u, int v, int s, int t) {
-	cerr << get1(s,t) << " " << get1(u - 1, t) << " " << 
 	return get1(s,t) - get1(u - 1, t) - get1(s, v - 1) + get1(u - 1, v - 1);
 }
 
@@ -49,6 +49,17 @@ signed main() {
 	for(int i=1; i <= m; ++i) {
 		for(int j=1; j <= n; ++j) {
 			cin >> a[i][j];
+		}
+	}
+	
+	for(int i = 1; i <= 2*m; ++i) {
+		for(int j = 1; j <= 2*n;++j) {
+			int u = i%m;
+			int v = j%n;
+			if(u == 0) u = m;
+			if(v == 0) v = n;
+			
+			a[i][j] = a[u][v];
 		}
 	}
 	

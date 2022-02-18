@@ -20,17 +20,32 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
 
-void f(int remain, int num) {
-	
-}
+int dp[3][MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	dp[0][1] = 1;
+	dp[1][1] = 1;
+	dp[2][1] = 1;
 	
+	int n;
+	cin >> n;
+	int res = 0;
 	
+	for(int i = 2; i <= n; ++i) {
+		for(int state = 0; state <= 2; ++ state) {
+			if(state == 1) {
+				dp[state][i] = (dp[0][i - 1] + dp[2][i - 1])%MOD;
+			} else {
+				dp[state][i] = (dp[0][i - 1] + dp[1][i - 1] + dp[2][i - 1])%MOD;
+			}
+			if(i == n) res = (res + dp[state][i])%MOD;
+		}
+	}	
+	
+	cout << res;
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

@@ -16,81 +16,81 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1005;
+const int MAXN1 = 303;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 int m,n;
-int sx,sy;
+string s;
 char a[MAXN1][MAXN1];
-int trace[MAXN1][MAXN1];
-
-int dx[] = {0, 0, 1, -1};
+int dist[MAXN1][MAXN1][MAXN1];
+int dx[] = {0, 0, -1, 1};
 int dy[] = {1, -1, 0, 0};
 
-string p = "RLDU";
+struct node{
+	int pos, x, y;
+};
 
 signed main() {
 	fast_cin();
 	
+	memset(dist, -1, sizeof dist);
+	
 	cin >> m >> n;
-	for(int i = 1; i <= m;++i) {
+	int sx,sy;
+	cin >> sx >> sy;
+	
+	for(int i = 1; i <= m; ++i) {
 		for(int j = 1; j <= n; ++j) {
 			cin >> a[i][j];
-			if(a[i][j] == 'A') {
-				sx = i;
-				sy = j;
-			}
 		}
-	}	
+	}
 	
-	vector<int> path;
-	memset(trace, -1, sizeof trace);
-	queue<pii > q;
-	q.push({sx, sy});
+	cin >> s;
+	int ssize = sz(s);
+	s = '0' + s;
+	
+	deque< node > q;
+	q.push_back({0, sx, sy});
+	dist[0][sx][sy] = 0;
 	
 	while(!q.empty()) {
 		
-		int x = q.front().fi;
-		int y = q.front().se;
+		int c = q.front().pos;
+		int x = q.front().x;
+		int y = q.front().y;
 		
-		q.pop();
+		q.pop_front();
+		
+/*		db(c);
+		db(x);
+		db(y);
+		cerr << "\n";*/
 		
 		
-		if(a[x][y] == 'B') {
-			
-			while(trace[x][y] != -1) {
-				int pre = trace[x][y];
-				path.push_back(pre);
-				
-				x -= dx[pre];
-				y -= dy[pre];
+		if(dist[c + 1][x][y] == -1 && a[x][y] == s[c + 1]) {
+			dist[c + 1][x][y] = dist[c][x][y];
+			if(c + 1 == ssize) {
+				cout << dist[c + 1][x][y];
+				exit(0);
 			}
-			reverse(path.begin(), path.end());
-			break;
+			q.push_front({c + 1, x, y});
 		}
 		
 		for(int i = 0; i < 4; ++i) {
 			int u = x + dx[i];
 			int v = y + dy[i];
 			
+			if(u < 1 || u > m ) continue;
+			if(v < 1 || v > n ) continue;
 			
-			if(u < 1 || u > m) continue;
-			if(v < 1 || v > n) continue;
-			if(a[u][v] == '#') continue;
-			if(trace[u][v] == -1 && (u != sx || v != sy)) {
-				trace[u][v] = i;
-				q.push({u,v});
+			if(dist[c][u][v] == -1) {
+				dist[c][u][v] = dist[c][x][y] + 1;
+				q.push_back({c, u, v});
 			}
 		}
-		
 	}
 	
-	if(sz(path)) {
-		cout << "YES\n";
-		cout << path.size() << "\n";
-		for(auto x : path) cout << p[x];
-	} else cout << "NO";
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

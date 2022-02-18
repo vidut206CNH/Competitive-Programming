@@ -16,45 +16,55 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1005;
+const int MAXN1 = 4e7+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n;
-int a[MAXN1];
-int dp[MAXN1][MAXN1];
-
-
-int f(int l, int r) {
-	if(r - l == 1) return dp[l][r] = 0;
-	if(dp[l][r] != -1) return dp[l][r];
-	
-	int best = inf;
-	for(int i = l + 1; i < r; ++i) {
-		best = min(best, f(l, i) + f(i, r) + a[i]*a[l]*a[r]);
-	}
-	
-	return dp[l][r] = best;
-}
-
+int t;
+vector<int> p;
+bool isp[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n;
+	memset(isp, true, sizeof isp);
 	
-	for(int i = 1; i <= n; ++i) {
-		cin >> a[i];
+	for(int i = 2; i < MAXN1; ++i) {
+		if(isp[i] == false) continue;
+		
+		p.push_back(i);
+		for(int j = i*i; j < MAXN1; j += i) isp[j] = false;
 	}
 	
-	
-	
-
-	
-	memset(dp, -1, sizeof dp);
-
-	cout << f(1, n);
-	
+		
+	cin >> t;
+	while(t--) {
+		int n;
+		cin >> n;
+		int res = 0;
+		
+		for(auto x : p) {
+			int d = n;
+			if(x*x*x > n) break;
+			d /= (x*x*x);
+			
+			for(auto y : p) {
+				if(y == x) continue;
+				if(y*y > d) break;
+				int m = d/(y*y);
+				res += (upper_bound(p.begin(), p.end(), m) - p.begin());
+				if(m >= y) res--;
+				if(m >= x) res--;
+/*				db(x);
+				db(y);
+				db(m);
+				db(res);
+				cerr << "\n";*/
+			}
+		}
+		
+		cout << res << "\n";
+	}	
 	
 	
 	#ifndef LOCAL_DEFINE

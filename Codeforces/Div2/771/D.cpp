@@ -20,11 +20,6 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
-
-void f(int remain, int num) {
-	
-}
 
 signed main() {
 	fast_cin();

@@ -20,16 +20,40 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
-
-void f(int remain, int num) {
-	
-}
+int t;
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+
 	
+	while(t--) {
+		int n;
+		cin >> n;
+		vector<int> a(n + 5);
+		for(int i = 1; i <= n; ++i) cin >> a[i];
+		vector<int> dp(n + 5, 1);
+		
+		int res = 0;
+		
+		for(int i = n; i >= 1; --i) {
+			for(int g = 1; g*g <= i; ++g) {
+				if(i%g) continue;
+				if(g == 1) {
+					if(a[g] < a[i]) dp[g] = max(dp[g], 1 + dp[i]);
+				} else {
+					if(a[g] < a[i]) dp[g] = max(dp[g], 1 + dp[i]);
+					if(a[i/g] < a[i]) dp[i/g] = max(dp[i/g], 1 + dp[i]);
+				}
+			}
+			res = max(dp[i], res);
+		}
+		
+		cout << res << "\n";
+		
+		
+	}	
 	
 	
 	#ifndef LOCAL_DEFINE

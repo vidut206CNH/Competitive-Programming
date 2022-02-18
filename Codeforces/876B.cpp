@@ -20,18 +20,36 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
+int n,k,m;
 
-void f(int remain, int num) {
-	
-}
+
+vector<int> d[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> k >> m;
+	for(int i = 1; i <= n; ++i) {
+		int x;
+		cin >> x;
+		d[x%m].push_back(x);
+	}
 	
 	
+	for(int i = 0; i < m; ++i) {
+		if(sz(d[i]) >= k) {
+			cout << "Yes\n";
+			for(auto x : d[i]) {
+				if(k == 0) break;
+				--k;
+				cout << x << " ";
+			}
+			exit(0);
+		}
+	}
 	
+	
+	cout << "No";
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
     #endif

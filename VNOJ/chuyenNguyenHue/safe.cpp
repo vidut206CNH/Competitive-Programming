@@ -17,17 +17,32 @@ typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
-const int MAXN2 = 1e6+5;
+const int MAXN2 = 7e5+5;
 const int inf = 1e18;
 
-dp[15][15];
+int n,m;
 
-void f(int remain, int num) {
-	
-}
+int dp[2][MAXN2];
+int c[] = {4, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+
+int dp[10];
 
 signed main() {
 	fast_cin();
+	
+	cin >> n >> m;
+	vector<int> p(m);
+	for(int i = 0; i < m; ++i) {
+		cin >> p[i];
+	}
+	
+	memset(dp, -1, sizeof dp);
+	
+	for(auto x : p) {
+		dp[c[x]] = x;
+	}	
+	
+	
 	
 	
 	

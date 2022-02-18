@@ -20,15 +20,27 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
+int n,m;
 
-void f(int remain, int num) {
+int power(int a, int b) {
+	int res = 1;
+	while(b) { 
+		if(b&1) res = res*a%MOD;
+		a = a*a%MOD;
+		b /= 2;
+	}
 	
+	return res;
 }
+
+
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> m;
+	
+	cout << power(power(2, m) - 1, n);
 	
 	
 	
