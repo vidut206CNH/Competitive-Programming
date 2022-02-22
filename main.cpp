@@ -20,16 +20,37 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-dp[15][15];
-
-void f(int remain, int num) {
-	
-}
+int cnt[10];
 
 signed main() {
 	fast_cin();
+	int res = 0;
+	for(int i = 100; i <= 999; ++i) {
+		memset(cnt, 0, sizeof cnt);
+		int tmp = i;
+		while(tmp) {
+			cnt[tmp%10]++;
+			tmp /= 10;
+		}
+		
+		int sum = 0,g = 0;
+		bool bad = false;
+		for(int j = 0; j <= 5; ++j) {
+			if(cnt[j] > 1) bad = true;
+			sum += cnt[j];
+			if(cnt[j]) g += j;
+		}
+		
+		bad |= (sum != 3);
+		
+		if(!bad && g%3 != 0) {
+			cout << i << "\n";
+			res++;
+		} 
+	}
 	
 	
+	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE
