@@ -16,58 +16,45 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 5e3+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 2e18;
+const int inf = 1e18;
 
 int n;
 int a[MAXN1];
-int b[MAXN1];
-int ma[MAXN1][MAXN1];
+int cnt[MAXN1];
 
 signed main() {
 	fast_cin();
-	
 	cin >> n;
 	for(int i = 1; i <= n; ++i) cin >> a[i];
-	for(int i = 1; i <= n; ++i) cin >> b[i];
 	
-	for(int r = 1; r <= n; ++ r) {
-		for(int c = 1; c <= n; ++c) {
-			ma[r][c] = a[r]*b[c];
+	stack<int> st;
+	for(int i = 1; i <= n; ++i) {
+		int cur = a[i];
+		if(!st.empty() && cur == a[st.top()]) {
+			
+			cnt[i] = cnt[st.top()] + 1;
+			st.push(i);
+			if(cnt[i] == cur) {
+				for(int t = 1; t <= cur; ++t) {
+					st.pop();
+				}
+				cnt[i] = 0;
+			}
+		} else {
+			cnt[i] = 1;
+			st.push(i);
 		}
-	}
-	int res = -inf;
-	for(int r = 1; r <= n; ++r) {
-		int x = r, y = 1;
-		int best = ma[x][y];
-		res = max(res, best);
-		++x;
-		++y;
-		while(x <= n && y <= n) {
-			best = max(ma[x][y], ma[x][y] + best);
-			res = max(res, best);
-			++x;
-			++y;
-		}
+/*		db(cnt[i]);
+		cerr << "\n";*/
 		
+		cout << sz(st) << "\n";
 	}
 	
-	for(int c = 1; c <= n; ++c) {
-		int x = 1, y = c;
-		int best = ma[x][y];
-		res = max(res, best);
-		++x;
-		++y;
-		while(x <= n && y <= n) {	
-			best = max(ma[x][y], ma[x][y] + best);
-			res = max(res, best);	
-			++x;
-			++y;
-		}
-	}
+
 	
-	cout << res;
+	
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
