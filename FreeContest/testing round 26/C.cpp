@@ -17,33 +17,54 @@ typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
-const int MAXN2 = 1e4+5;
+const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 int k;
+vector<pii > adj[MAXN1];
 
-
-int cnt(int val) {
-	int res = 0;
-	while(val) {
-		res += (val%10);
-		val /= 10;
-	}
-	
-	return res;
-}
 
 signed main() {
 	fast_cin();
 	
-	cin >> k;
-	int res = inf;
-	for(int i = 1; i < MAXN2; ++i) {
-		int tmp = k*i;
-		res = min(res, cnt(tmp));
+	cin >> k;	
+	
+	for(int node = 0; node < k; ++node) {
+		for(int d = 0; d < 10; ++d) {
+			int next = (node*10 + d)%k;
+			adj[node].push_back({next, d});
+		}
 	}
 	
-	cout << res;
+	vector<int> dist(k + 5, inf);
+	vector<bool> P(k + 5, false);
+	dist[k] = 0;
+	for(int i = 1; i < 10; ++i) adj[k].push_back({i%k, i});
+	priority_queue<pii, vector<pii >, greater<pii > > pq;
+	pq.push({0, k});
+	
+	while(!pq.empty()) {
+		int val = pq.top().fi;
+		int cur = pq.top().se;
+		pq.pop();
+		
+		
+		if(P[cur]) continue;
+		P[cur] = true;
+		
+		for(auto x : adj[cur]) {
+			int v = x.fi;
+			int w = x.se;
+
+			if(dist[v] > val + w) {
+				dist[v] = val + w;
+				pq.push({dist[v], v});
+			}
+		}
+	}
+	
+	
+	cout << dist[0];
 	
 	
 	
