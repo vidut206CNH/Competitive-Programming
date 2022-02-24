@@ -16,42 +16,38 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 205;
-const int MAXN2 = 2e4+5;
+const int MAXN1 = 1e5+5;
+const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int t;
-int a[MAXN1];
-unordered_map<int,int> dp[2];
+int n;
+pii a[MAXN1];
+bool p[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> t;
-	while(t--) {
-		int n,X;
-		cin >> n >> X;
-		
-		for(int i = 1; i <= n; ++i) {
-			cin >> a[i];
-			a[i] -= X;
-		}
-		dp[0].clear();
-		dp[1].clear();
-		dp[0][0] = 1;
-		for(int i = 0; i < n; ++i) {	
-			for(auto x : dp[i%2]) {
-				
-				int cur = x.fi;
-				int val = x.se;
-				
-				dp[!(i%2)][cur] = (dp[!(i%2)][cur] + val)%MOD;
-				dp[!(i%2)][cur + a[i + 1]] = (dp[!(i%2)][cur + a[i + 1]] + val)%MOD;
-			}
-			dp[i%2].clear();
-		}
-		cout << dp[n%2][0] - 1 << "\n";
+	
+	cin >> n;
+	for(int i = 1; i <= n; ++i) {
+		cin >> a[i].fi;
+		a[i].se = i;
 	}
+	
+	sort(a + 1, a + n + 1);
+	
+	int res = 0;
+	
+	for(int i = 1; i <= n; ++i) {
+		int pos = a[i].se;
+		if(p[pos]) continue;
+		res++;
+		p[pos] = true;
+		if(pos != 1) p[pos - 1] = true;
+		if(pos != n) p[pos + 1] = true;
+	}
+	
+	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE
