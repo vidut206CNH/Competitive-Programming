@@ -20,10 +20,47 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int a[MAXN1];
+int cnt[35];
+int n;
 
 signed main() {
 	fast_cin();
 	
+	cin >> n;
+	for(int i = 1; i <= n; ++i) {
+		char c;
+		cin >> c;
+		a[i] = c - 'a';
+	}
+	pair<int,int> best, res = {1, 1};
+	best = {1, 1};
+	for(int i = 1; i <= 26; ++i) {
+		int l = 1, r = 1;
+		memset(cnt, 0, sizeof cnt);
+		int d = 0;
+		while(r <= n) {
+/*			db(l);
+			db(r);
+			cerr << "\n";*/
+			cnt[a[r]]++;
+			if(cnt[a[r]] == 1) d++;
+			while(d > i) {
+				cnt[a[l]]--;
+				if(cnt[a[l]] == 0) --d;
+				++l;
+			}
+			if(best.fi*(r - l + 1) > best.se*d) {
+				best.fi = d;
+				best.se = (r - l + 1);
+				res.fi = l;
+				res.se = r;
+			}
+			++r;
+		}
+	}
+	
+	cout << res.fi << " " << res.se;
 	
 	
 	
