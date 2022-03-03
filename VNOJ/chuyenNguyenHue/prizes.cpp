@@ -16,55 +16,37 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e3+5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,D;
+int n,k;
 int a[MAXN1];
-int pos[MAXN1];
-vector<int> f;
-int dp[MAXN1];
-int res = 0;
-
-void solve() {
-	dp[0] = f[0];
-	int lim = 1;
-	for(auto x : f) {
-		int idx = lower_bound(dp, dp + lim, x) - dp;
-		dp[idx] = x;
-		if(idx == lim) {
-			++lim;
-		}
-	}
-	
-	res = max(res, lim);
-}
-
+int lmax[MAXN1];
+int rmax[MAXN1];
+int f[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> D;
-	for(int i = 1; i <= 2*n; ++i) cin >> a[i];
+	cin >> n >> k;
+	for(int i = 1; i <= n; ++i) cin >> a[i];
+	for(int i = 1; i <= n; ++i) f[i] = f[i - 1] + a[i];
 	
-	for(int d = 1; d < 2*n; ++d) {
-		pos[a[d]] = d;
-		f.clear();
-		for(int i = d + 1; i <= 2*n; ++i) {
-			vector<int> tmp;
-			for(int val = max(0LL, a[i] - D); val <= min(2*n, a[i] + D); ++val) {
-				if(pos[val]) tmp.push_back(pos[val]); 
-			}
-			sort(tmp.begin(), tmp.end(), greater<int>());
-			for(auto x : tmp) f.push_back(x);
+	for(int i = k; i <= n; ++i) {
+		lmax[i] = max(lmax[i - 1], f[i] - f[i - k]);
+	}
+	for(int i = n - k + 1; i >= 1; --i) {
+		rmax[i] = max(rmax[i + 1], f[i + k - 1] - f[i - 1]);
+	}
+	int res = inf;
+	for(int i = 1; i <= n - k + 1; ++i) {
+		if(f[i + k - 1] - f[i - 1]  >= max(lmax[i - 1], rmax[i + k])) {
+			res = min(res, f[i + k - 1] - f[i - 1]);
 		}
-		solve();
-		
 	}
 	
 	cout << res;
-	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
     #endif
