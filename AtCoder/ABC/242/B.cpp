@@ -24,14 +24,10 @@ const int inf = 1e18;
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
-	}
-	
+	string s;
+	cin >> s;
+	sort(s.begin(),s.end());
+	cout << s;
 	
 	
 	#ifndef LOCAL_DEFINE

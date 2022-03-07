@@ -20,18 +20,40 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n;
+int a[MAXN1];
+int bit[MAXN1];
+
+void update(int pos, int val) {
+	for(;pos <= n; pos += (pos & -pos)) bit[pos] += val;
+}
+
+int get(int pos) {
+	int res = 0;
+	for(;pos > 0; pos -= (pos & -pos)) res += bit[pos];
+	return res;
+}
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
+	cin >> n;
+	for(int i = 1; i <= n; ++i) cin >> a[i];
+	int q;
+	cin >> q;
+	
+	while(q--) {
+		int l,r,x;
+		cin >> l >> r >> x;
+		update(l, x);
+		update(r + 1, -x);
 	}
 	
+	for(int i = 1; i <= n; ++i) {
+/*		db(get(i));
+		cerr << "\n";*/
+		cout << a[i] + get(i) << " ";
+	}
 	
 	
 	#ifndef LOCAL_DEFINE

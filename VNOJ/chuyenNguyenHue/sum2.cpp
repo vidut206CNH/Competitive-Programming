@@ -16,22 +16,46 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 505;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
+
+int m,n,q;
+int a[MAXN1][MAXN1];
+int diff[MAXN1][MAXN1];
+
+
 
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
+	cin >> m >> n;
+	for(int i = 1; i <= m; ++i) {
+		for(int j = 1; j <= n; ++j) {
+			cin >> a[i][j];
+		}
 	}
 	
+	
+	cin >> q;
+	while(q--) {
+		int x, y, u, v, val;
+		cin >> x >> y >> u >> v >> val;
+		diff[x][y] += val;
+		diff[x][v + 1] -= val;
+		diff[u + 1][y] -= val;
+		diff[u + 1][v + 1] += val;
+	}
+	
+	
+	for(int i = 1; i <= m; ++i) {
+		for(int j = 1; j <= n; ++j) {
+			diff[i][j] += (diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1]);
+			cout << diff[i][j] + a[i][j] << " ";
+		}
+		cout << "\n";
+	}
 	
 	
 	#ifndef LOCAL_DEFINE

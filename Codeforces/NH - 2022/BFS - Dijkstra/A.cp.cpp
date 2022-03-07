@@ -24,13 +24,6 @@ const int inf = 1e18;
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
-	}
 	
 	
 	

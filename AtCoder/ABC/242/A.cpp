@@ -20,18 +20,22 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int A,B,C,X;
+
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
-	}
+	cin >> A >> B >> C >> X;
+	if(X <= A) {
+		cout << fixed << setprecision(15) << 1.0;
+		exit(0);
+	}	
 	
+	if(X <= B) {
+		cout << fixed << setprecision(15) <<  1.0*C/(B - A);
+	}
+	else cout << 0;
 	
 	
 	#ifndef LOCAL_DEFINE

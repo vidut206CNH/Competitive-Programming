@@ -15,23 +15,33 @@ using namespace std;
 
 typedef pair<int,int> pii;
 
-const int MOD = 1e9 + 7;
+const int MOD = 998244353;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int n;
+int dp[10][MAXN2];
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
+	cin >> n;
+	int res = 0;
+	
+	for(int i = 1; i <= 9; ++i) dp[i][1] = 1;
+	
+	for(int i = 2; i <= n; ++i) {
+		for(int digit = 1; digit <= 9; ++digit) {
+			for(int last = 1; last <= 9; ++last) {
+				if(abs(last - digit) > 1) continue;
+				dp[digit][i] = (dp[digit][i] + dp[last][i - 1])%MOD;
+			}
+			if(i == n) res = (res + dp[digit][n])%MOD;
+		}
 	}
 	
+	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE

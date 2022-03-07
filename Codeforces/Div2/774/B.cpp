@@ -24,6 +24,32 @@ const int inf = 1e18;
 signed main() {
 	fast_cin();
 	
+	int t;
+	cin >> t;
+	while(t--) {
+		int n;
+		cin >> n;
+		vector<int> a(n);
+		for(auto &x : a) cin >> x;
+		sort(a.begin(), a.end());
+		int l = 1, r = n - 1;
+		int left = 0, right = 0;
+		left += a[0];
+		bool ok = 0;
+		
+		while(l < r) {
+			left += a[l];
+			right += a[r];
+			if(right > left) {
+				ok = true;
+				break;
+			}
+			++l;
+			--r;
+		}
+		
+		cout << (ok ? "YES\n" : "NO\n");
+	}
 	
 	
 	

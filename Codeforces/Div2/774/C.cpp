@@ -20,10 +20,33 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int t;
+int f[20];
+map<int,int> dp;
+
+
+int calc(int val, int lim) {
+	if(val == 0) return 0;
+	int res = __builtin_popcountll(val);
+	for(int i = 3; i <= 15; ++i) {
+		if(f[i] > lim) break;
+		res = min(res, 1 + calc(val - f[i], min(f[i] - 1, f[i])));
+	}
+	
+	return res;
+}
 
 signed main() {
 	fast_cin();
-	
+	f[0] = 1;
+	for(int i = 1; i <= 15; ++i) f[i] = f[i - 1]*i;
+	cin >> t;
+	while(t--) {
+		int n;
+		cin >> n;
+		dp.clear();
+		cout << calc(n, n) << "\n";
+	}
 	
 	
 	

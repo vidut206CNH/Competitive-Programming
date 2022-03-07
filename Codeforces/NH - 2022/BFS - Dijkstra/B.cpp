@@ -16,22 +16,42 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 1005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+int m,n;
+int a[MAXN1][MAXN1];
+vector< pii > adj[MAXN2];
+bool visited[MAXN1][MAXN1];
+
+void dfs(int x,int y) {
+	int val = a[x][y];
+	
+	for(auto next : adj[val]) {
+		int u = next.fi;
+		int v = next.se;
+		if(visited[u][v]) continue;
+		visited[u][v] = true;
+		dfs(u,v);
+	}
+}
 
 signed main() {
 	fast_cin();
 	
-	int t;
-	cin >> t;
-	while(t--) {
-		int n,s;
-		cin >> n >> s;
-		cout << s/(n*n) << "\n";
-	}
+	cin >> m >> n;
+	for(int i = 1; i <= m; ++i) {
+		for(int j = 1; j <= n; ++j) {
+			cin >> a[i][j];
+			adj[i*j].push_back({i,j});
+		}
+	}	
 	
+	visited[1][1] = true;
+	dfs(1,1);
+	
+	cout << (visited[m][n] ? "yes" : "no");
 	
 	
 	#ifndef LOCAL_DEFINE
