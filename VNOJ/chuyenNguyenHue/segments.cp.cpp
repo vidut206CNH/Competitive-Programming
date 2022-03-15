@@ -16,35 +16,15 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e3 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,k;
-int a[MAXN1];
-int dp[MAXN1][55];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> k;
-	for(int i = 1; i <= n; ++i) cin >> a[i];
 	
-	memset(dp, -1, sizeof dp);
-	dp[0][0] = 0;
-	
-	for(int i = 0; i < n; ++i) {
-		for(int cur = 0; cur < k; ++cur) {
-			int val = dp[i][cur];
-			if(val == -1) continue;
-			// choose a[i + 1]
-			dp[i + 1][(cur + a[i + 1])%k] = max(dp[i + 1][(cur + a[i + 1])%k], dp[i][cur] + 1);
-			// not choose
-			dp[i + 1][cur] = max(dp[i + 1][cur], dp[i][cur]);
-		}
-	}
-	
-	cout << dp[n][0];
 	
 	
 	#ifndef LOCAL_DEFINE
