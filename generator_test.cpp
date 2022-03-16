@@ -25,7 +25,7 @@ const int MAXN2 = 1e6+5;
 const int Test = 100;
 
 
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int getRand(int l,int r) {
 	assert(l <= r);
@@ -40,14 +40,20 @@ signed main() {
 	fast_cin();
 	
 	srand(time_t(0));
-	
-	int l = getRand(1,(int)1e7);
-	int r = getRand(l, l*l);
-	cout << l << " " << r << "\n";
-
-  for(int i=1;i<=n;++i) {
-    cin >> a[i];
-  }
+	int n;
+	cin >> n;
+	int m = getRand(1, n*(n - 1)/2);
+	cout << n << " " << m << "\n";
+	int cnt = 0;
+	for(int i = 1; i <= n*(n - 1)/2; ++i) {
+		if(cnt == m) break;
+		int u = getRand(1, n);
+		int v = getRand(1, n);
+		if(u == v) continue;
+		int cost = getRand(1, 20);
+		cout << u << " " << v << " " << cost << "\n";
+		cnt++;
+	}
 
   
 	#ifndef LOCAL_DEFINE
