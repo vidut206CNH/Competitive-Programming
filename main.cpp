@@ -16,62 +16,35 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e5+5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 int n;
-vector<int> adj[MAXN1];
-int color[MAXN1];
-int deg[MAXN1];
+int res[10];
+bool ok[10][10];
+
+string s[] = {"Bessie", "Buttercup", "Belinda", "Beatrice", "Bella", "Blue", "Betsy", "Sue"}
+
 
 signed main() {
 	fast_cin();
 	
 	cin >> n;
-	priority_queue<pii, vector<pii >, greater<pii > > p;
-	for(int i = 1; i < n; ++i) {
-		int u,v;
-		cin >> u >> v;
-		adj[u].push_back(v);
-		adj[v].push_back(u);
-		deg[u]++;
-		deg[v]++;
-	}
-	
-	for(int i = 1; i <= n; ++i) p.push({deg[i], i});
-	int res = 0, suma = 0;
-	while(!p.empty()) {
-		int val = p.top().fi;
-		int node = p.top().se;
-		p.pop();
+	for(int i = 1; i <= n; ++i) {
+		vector<string> a(6);
+		for(auto &x : a) cin >> x;
 		
-		if(color[node]) continue;
-		
-		res++;
-		int sum = 0;
-		vector<int> d;
-		for(auto v : adj[node]) {
-			if(color[v]) sum += color[v];
-			else {
-				sum++;
-				color[v] = 1;
-				d.push_back(v);
-			}
+		int idx = -1, idy = -1;
+		for(int i = 0; i < 8; ++i) {
+			if(s[i] == a[0]) idx = i;
+			if(s[i] == a.back()) idy = i; 
 		}
-		color[node] = sum;
 		
-		for(auto v : d) {
-			for(auto x : adj[v]) {
-				if(color[x]) continue;
-				p.push({--deg[x], x});
-			}
-		}
-	}
-	for(int i = 1; i <= n; ++i) suma += color[i];
-	
-	cout << res << " " << suma << "\n";
-	for(int i = 1; i <= n; ++i) cout << color[i] << " ";
+		a[idx][idy] = 1;
+		a[idy][idx] = 1;
+		
+	}		
 	
 	
 	#ifndef LOCAL_DEFINE

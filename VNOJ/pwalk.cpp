@@ -20,47 +20,83 @@ const int MAXN1 = 1005;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-
 int n,q;
 vector<pii > adj[MAXN1];
-bool visited[MAXN1];
-int sum[MAXN1];
+int up[MAXN1][15];
+int h[MAXN1];
+int dist[MAXN1];
 
-void dfs(int node) {
+void dfs(int u) {
+	for(auto x : adj[u]) {
+		int v = x.fi;
+		int w = x.se;
+		if(v == up[u][0]) continue;
+		
+		h[v] = h[u] + 1;
+		dist[v] = dist[u] + w;
+		up[v][0] = u;
+		for(int i = 1; i <= 10; ++i) {
+			if(up[up[v][i - 1]][i - 1] == -1) break;
+			up[v][i] = up[up[v][i - 1]][i - 1];
+		}
+		
+		dfs(v);
+	}
+}	
+
+
+int lca(int u, int v) {
+	if(h[u] < h[v]) swap(u, v);
 	
-	visited[node] = 1;
-	
-	for(auto x : adj[node]) {
-		if(visited[x.fi]) continue;
-		sum[x.fi] = sum[node] + x.se;
-		dfs(x.fi);
+	int k = h[u] - h[v];
+	for(int i = 0; (1 << i) <= k; ++i) {
+		if((k >> i) & 1) {
+			u = up[u][i];
+		}
 	}
 	
+	if(u == v) return u;	
+	
+	int lim = log2(h[u]);
+	
+	for(int i = lim; i >= 0; --i) {
+		if(up[u][i] != -1 && up[v][i] != -1 && up[u][i] != up[v][i]) {
+			u = up[u][i];
+			v = up[v][i];
+		}
+	}
+	
+	return up[u][0];
 }
+
+void solve(int u, int v) {
+	int p = lca(u,v);
+	//db(p);
+	cout << dist[u] + dist[v] - 2*dist[p] << "\n";
+}
+
 
 signed main() {
 	fast_cin();
 	
 	cin >> n >> q;
-	for(int i=1;i<n;++i) {
-		int u,v,cost;
-		cin >> u >> v >> cost;
-		adj[u].push_back({v,cost});
-		adj[v].push_back({u, cost});
+	for(int i = 1; i < n; ++i) {
+		int u,v,c;
+		cin >> u >> v >> c;
+		adj[u].push_back({v,c});
+		adj[v].push_back({u,c});
 	}
 	
-	for(int i=1;i<=q;++i) {
-		int u,v;
+	memset(h, -1, sizeof h);
+	memset(up, -1, sizeof up);
+	h[1] = 0;
+	dfs(1);
+	
+	while(q--) {
+		int u, v;
 		cin >> u >> v;
-		memset(visited, false, sizeof visited);
-		memset(sum, 0, sizeof sum);
-		dfs(u);
-		
-		cout << sum[v] << "\n";
+		solve(u,v);
 	}
-	
-	
-	
 	
 	
 	#ifndef LOCAL_DEFINE
