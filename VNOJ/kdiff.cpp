@@ -16,51 +16,46 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e7+5;
+const int MAXN1 = 3e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,q;
-int res[MAXN1];
-int f[MAXN1], s[MAXN1];
-int pref[MAXN1], suf[MAXN1];
+int n,k;
+int a[MAXN1];
+int dp[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> q;
+	cin >> n >> k;
+	for(int i = 1; i <= n; ++i) cin >> a[i];
+	
+	deque<int> minn, maxx;
+	int lastpos = 0;
+	
+	int res = 0;
 	for(int i = 1; i <= n; ++i) {
-		int p, t, d;
-		cin >> p >> t >> d;
-		++d;
-		if(p >= d) {
-			s[p - d] = t;
-		}
+		while(!minn.empty() && a[minn.back()] > a[i]) minn.pop_back();
+		while(!maxx.empty() && a[maxx.back()] < a[i]) maxx.pop_back();
 		
-		if(p + d < MAXN1) {
-			f[p + d] += t;
+		minn.push_back(i);
+		maxx.push_back(i);
+		
+		while(a[maxx.front()] - a[minn.front()] > k) {
+			if(maxx.front() < minn.front()) {
+				lastpos = maxx.front();
+				maxx.pop_front();
+			}
+			else {
+				lastpos = minn.front();
+				minn.pop_front();
+			}
 		}
+		res = max(res, i - lastpos + dp[lastpos]);
+		dp[i] = max(i - lastpos, dp[i - 1]);
 	}
 	
-	for(int i = 0; i < MAXN1; ++i) {
-		if(i != 0) f[i] += f[i - 1];
-		//db(f[i]);
-		pref[i] = f[i];
-		if(i != 0) pref[i] += pref[i - 1];
-	}
-	
-	for(int i = (int)1e7; i >= 0; --i) {
-		s[i] += s[i + 1];
-		suf[i] = s[i];
-		suf[i] += suf[i + 1];
-	}
-	
-	while(q--) {
-		int v;
-		cin >> v;
-		//db(pref[v]);
-		cout << pref[v] + suf[v] << "\n";
-	}
+	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE

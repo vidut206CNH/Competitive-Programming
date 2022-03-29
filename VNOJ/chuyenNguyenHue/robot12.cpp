@@ -16,52 +16,56 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e7+5;
+const int MAXN1 = 5e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,q;
+int m,n,b,r;
+vector<int> adj[MAXN1];
+vector<int> robots;
 int res[MAXN1];
-int f[MAXN1], s[MAXN1];
-int pref[MAXN1], suf[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> q;
-	for(int i = 1; i <= n; ++i) {
-		int p, t, d;
-		cin >> p >> t >> d;
-		++d;
-		if(p >= d) {
-			s[p - d] = t;
-		}
+	cin >> n >> m >> b >> r;
+	memset(res, -1, sizeof res);
+	queue<int> q;
+	for(int i = 1; i <= b; ++i) {
+		int x;
+		cin >> x;
+		q.push(x);
+		res[x] = 0;
+	}
+	
+	for(int i = 1; i <= r; ++i) {
+		int x;
+		cin >> x;
+		robots.push_back(x);
+	}
+	
+	
+	for(int i = 1; i <= m; ++i) {
+		int u,v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	
+	while(!q.empty()) {
+		int u = q.front();
 		
-		if(p + d < MAXN1) {
-			f[p + d] += t;
+		q.pop();
+		
+		for(auto v : adj[u]) {
+			if(res[v] == -1) {
+				res[v] = res[u] + 1;
+				q.push(v);
+			}
 		}
 	}
 	
-	for(int i = 0; i < MAXN1; ++i) {
-		if(i != 0) f[i] += f[i - 1];
-		//db(f[i]);
-		pref[i] = f[i];
-		if(i != 0) pref[i] += pref[i - 1];
-	}
-	
-	for(int i = (int)1e7; i >= 0; --i) {
-		s[i] += s[i + 1];
-		suf[i] = s[i];
-		suf[i] += suf[i + 1];
-	}
-	
-	while(q--) {
-		int v;
-		cin >> v;
-		//db(pref[v]);
-		cout << pref[v] + suf[v] << "\n";
-	}
-	
+	for(auto x : robots) cout << res[x] << " ";
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

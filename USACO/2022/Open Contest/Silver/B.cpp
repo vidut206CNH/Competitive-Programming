@@ -16,51 +16,37 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e7+5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,q;
-int res[MAXN1];
-int f[MAXN1], s[MAXN1];
-int pref[MAXN1], suf[MAXN1];
+vector<string> p(2);
+int bit[2][25][MAXN1];
+int cnt[2][25][25];
+
+
+void update(int d, int c, int pos) {
+	for(;pos < sz(p[d]); pos += (pos & -pos))
+}
 
 signed main() {
 	fast_cin();
-	
-	cin >> n >> q;
-	for(int i = 1; i <= n; ++i) {
-		int p, t, d;
-		cin >> p >> t >> d;
-		++d;
-		if(p >= d) {
-			s[p - d] = t;
-		}
+	for(int i = 0; i < 2; ++i) {
+		cin >> p[i];
+		p[i] = '0' + p[i];
 		
-		if(p + d < MAXN1) {
-			f[p + d] += t;
+		for(int pos = 1; pos <= sz(p[i]) - 1; ++pos) {
+			
 		}
 	}
 	
-	for(int i = 0; i < MAXN1; ++i) {
-		if(i != 0) f[i] += f[i - 1];
-		//db(f[i]);
-		pref[i] = f[i];
-		if(i != 0) pref[i] += pref[i - 1];
-	}
-	
-	for(int i = (int)1e7; i >= 0; --i) {
-		s[i] += s[i + 1];
-		suf[i] = s[i];
-		suf[i] += suf[i + 1];
-	}
-	
+	int q;
+	cin >> q;
 	while(q--) {
-		int v;
-		cin >> v;
-		//db(pref[v]);
-		cout << pref[v] + suf[v] << "\n";
+		string d;
+		cin >> d;
 	}
+	
 	
 	
 	#ifndef LOCAL_DEFINE
