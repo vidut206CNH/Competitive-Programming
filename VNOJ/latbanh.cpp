@@ -36,33 +36,38 @@ int calc(bool ok, int val, int pos) {
 	if(dp[ok][val][pos] != -1) return dp[ok][val][pos];
 	int res = inf;
 	
-	for(int l = a[pos].fi; l <= a[pos].se; ++l) {
+	int sum = 0;
+	if(ok) sum += (a[pos].fi - a[pos - 1].se - 1);
+	
+	for(int val1 = 0; val1 <= a[pos].se - a[pos].fi + 1; ++val1) {
 		
-		if(ok && val + l - a[pos - 1].se <= n) {
-			int val1 = val + l - a[pos - 1].se;
-			res = min(res, calc(!ok, val1, pos + 1) + 1);
-			
-			for(int r = l + 1; r <= a[pos].se; ++r) {
-				res = min(res, calc(ok, val1 + a[pos].se - r, pos + 1) + 2);
-			}
+		if(val1 + val + sum > n && ok) {
+			break;
 		}
 		
-		else if(!ok) {
-			int val1 = val + a[pos].se - l;
-			res = min(res, calc(!ok, val1, pos + 1) + 1);
-			
-			for(int r = l + 1; r <= a[pos].se; ++r) {
-				res = min(res, calc(ok, val1 - (a[pos].se - r), pos + 1) + 2);
-			}
+		if(ok) {
+			res = min(res, calc(ok, val + val1 + sum, pos + 1) + 2);
+			res = min(res, calc(!ok, val + val1 + sum, pos + 1) + 1);
+		}
+		
+		else if(!ok && val1 != a[pos].se - a[pos].fi + 1) {
+			res = min(res, calc(!ok, val + val1 + sum, pos + 1) + 1);			
+			res = min(res, calc(ok, val + val1 + sum, pos + 1) + 2);
 		}
 	}
 	
 	if(ok) {
-		res =min(res, calc(ok, val + a[pos].se - a[pos - 1].se, pos + 1));
+		res = min(res, calc(ok, val + a[pos].se - a[pos].fi + 1 + sum, pos + 1));
 	}
-	else {
+	
+	if(!ok) {
 		res = min(res, calc(ok, val, pos + 1));
 	}
+/*	db(ok);
+	db(val);
+	db(pos);
+	db(res);
+	cerr << "\n";*/
 	
 	return dp[ok][val][pos] = res;
 	

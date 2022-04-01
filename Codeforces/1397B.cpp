@@ -16,43 +16,51 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 3e5+5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 1e18;
+const int inf = 1e14 + 7;
 
-int n,k;
+int n;
 int a[MAXN1];
-int dp[MAXN1];
+int f[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> k;
-	for(int i = 1; i <= n; ++i) cin >> a[i];
+	cin >> n;
+	int sum = 0;
+	for(int i = 0; i < n; ++i) {
+		cin >> a[i];
+		sum += a[i];
+	}
+	sort(a, a + n);
 	
-	deque<int> minn, maxx;
-	int lastpos = 0;
+	int res = abs(sum - n);
 	
-	int res = 0;
-	for(int i = 1; i <= n; ++i) {
-		while(!minn.empty() && a[minn.back()] > a[i]) minn.pop_back();
-		while(!maxx.empty() && a[maxx.back()] < a[i]) maxx.pop_back();
+	for(int c = 2; c <= (int)1e5; ++c) {
 		
-		minn.push_back(i);
-		maxx.push_back(i);
+		bool bad = false;
 		
-		while(a[maxx.front()] - a[minn.front()] > k) {
-			if(maxx.front() < minn.front()) {
-				lastpos = maxx.front();
-				maxx.pop_front();
+		f[0] = 1;
+		for(int k = 1; k < n; ++k) {
+			
+			if(f[k - 1] > inf/c) {
+				bad = true;
+				break;
 			}
-			else {	
-				lastpos = minn.front();
-				minn.pop_front();
-			}
+			
+			f[k] = f[k - 1]*c;
 		}
-		res = max(res, i - lastpos + dp[lastpos]);
-		dp[i] = max(i - lastpos, dp[i - 1]);
+		
+		if(!bad) {
+			int d = 0;
+			for(int i = 0; i < n; ++i) {
+				d += abs(f[i] - a[i]);
+			}
+			
+			res = min(res, d);
+		}
+		
 	}
 	
 	cout << res;

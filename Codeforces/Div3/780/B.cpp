@@ -16,46 +16,36 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 3e5+5;
+const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,k;
+int t;
+int n;
 int a[MAXN1];
-int dp[MAXN1];
+
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> k;
-	for(int i = 1; i <= n; ++i) cin >> a[i];
 	
-	deque<int> minn, maxx;
-	int lastpos = 0;
-	
-	int res = 0;
-	for(int i = 1; i <= n; ++i) {
-		while(!minn.empty() && a[minn.back()] > a[i]) minn.pop_back();
-		while(!maxx.empty() && a[maxx.back()] < a[i]) maxx.pop_back();
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		for(int i = 1; i <= n; ++i) cin >> a[i];
+		sort(a + 1, a + n + 1);
 		
-		minn.push_back(i);
-		maxx.push_back(i);
+		bool bad = false;
 		
-		while(a[maxx.front()] - a[minn.front()] > k) {
-			if(maxx.front() < minn.front()) {
-				lastpos = maxx.front();
-				maxx.pop_front();
-			}
-			else {	
-				lastpos = minn.front();
-				minn.pop_front();
-			}
+		if(n == 1) {
+			cout << (a[1] == 1 ? "YES\n" : "NO\n");
+			continue;
 		}
-		res = max(res, i - lastpos + dp[lastpos]);
-		dp[i] = max(i - lastpos, dp[i - 1]);
+		bad = (a[n] - a[n - 1] > 1);
+		
+		cout << (bad ? "NO\n" : "YES\n");
 	}
 	
-	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE

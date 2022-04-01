@@ -16,46 +16,44 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 3e5+5;
+const int MAXN1 = 3e3+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,k;
-int a[MAXN1];
-int dp[MAXN1];
+int t;
+int n;
+
+char a[MAXN1];
+int f[MAXN1];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n >> k;
-	for(int i = 1; i <= n; ++i) cin >> a[i];
 	
-	deque<int> minn, maxx;
-	int lastpos = 0;
-	
-	int res = 0;
-	for(int i = 1; i <= n; ++i) {
-		while(!minn.empty() && a[minn.back()] > a[i]) minn.pop_back();
-		while(!maxx.empty() && a[maxx.back()] < a[i]) maxx.pop_back();
-		
-		minn.push_back(i);
-		maxx.push_back(i);
-		
-		while(a[maxx.front()] - a[minn.front()] > k) {
-			if(maxx.front() < minn.front()) {
-				lastpos = maxx.front();
-				maxx.pop_front();
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		for(int i = 1; i <= n; ++i) cin >> a[i];
+		int ans = 0;
+		for(int l = 1; l <= n; ++l) {
+			int cntplus = 0, cntminus = 0;
+			f[0] = 0;
+			for(int r = l; r <= n; ++r) {
+				if(a[r] == '+') cntplus++;
+				if(a[r] == '-') cntminus++;
+				
+				if(r > l && a[r] == '-' && a[r - 1] == '-') f[r - l + 1] = f[r - l - 1] + 1;
+				else f[r - l + 1] = f[r - l];
+				if(cntminus < cntplus) continue;
+				if((cntminus - cntplus)%3 == 0 && f[r] >= (cntminus - cntplus)/3) ans++;
 			}
-			else {	
-				lastpos = minn.front();
-				minn.pop_front();
-			}
+			
+			//db(ans);
 		}
-		res = max(res, i - lastpos + dp[lastpos]);
-		dp[i] = max(i - lastpos, dp[i - 1]);
+		//cerr << "\n";
+		cout << ans << "\n";
 	}
 	
-	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE
