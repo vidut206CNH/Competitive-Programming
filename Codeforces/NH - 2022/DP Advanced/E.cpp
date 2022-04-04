@@ -23,7 +23,7 @@ const int inf = 1e18;
 int L, R;
 vector<int> digits;
 
-int dp[20][3][3][3][3][3][]
+int dp[20][(1 << 10) + 3][(1 << 10) + 3];
 
 
 int solve(int val) {

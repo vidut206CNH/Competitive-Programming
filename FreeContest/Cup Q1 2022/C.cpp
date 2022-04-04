@@ -16,39 +16,46 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e3+5;
-const int MAXN2 = 1e6+5;
+const int MAXN1 = 1e5+5;
+const int MAXN2 = 2e6+10;
 const int inf = 1e18;
 
 
-int n;
-pii a[MAXN1];
+int t;
+int f[MAXN2];
 
-int findbest(int id) {
-	vector<int> p;
-	vector<int> cur;
+int power(int a, int b) {
+	int res = 1;
+	while(b) {
+		if(b&1) res = res*a%MOD;
+		a = a*a%MOD;
+		b /= 2;
+	}
 	
+	return res;
+}
+
+int C(int g, int k) {
+	return f[g]*power(f[k], MOD - 2)%MOD*power(f[g - k], MOD - 2)%MOD;
 }
 
 
-int findworst(int id) {
-	
+int solve(int n) {
+	return f[n]*C(2*n, n)%MOD*f[n]%MOD*power(power(2, n)%MOD, MOD - 2)%MOD;
 }
 
 signed main() {
 	fast_cin();
 	
+	cin >> t;
+	f[0] = 1;
+	for(int i = 1; i < MAXN2; ++i) f[i] = f[i - 1]*i%MOD;
 	
-	cin >> n;
-	for(int i = 1; i <= n; ++i) cin >> a[i].fi;
-	for(int i = 1; i <= n; ++i) cin >> a[i].se;
 	
-	
-	for(int i = 1; i <= n; ++i) {
-		int res1 = findbest(i);
-		int res2 = findworst(i);
-		
-		cout << res1 << " " << res2 << '\n';
+	while(t--) {
+		int n;
+		cin >> n;
+		cout << solve(n) << "\n";
 	}
 	
 	

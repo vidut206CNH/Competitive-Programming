@@ -16,39 +16,25 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e3+5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-
+int t;
 int n;
-pii a[MAXN1];
-
-int findbest(int id) {
-	vector<int> p;
-	vector<int> cur;
-	
-}
-
-
-int findworst(int id) {
-	
-}
 
 signed main() {
 	fast_cin();
-	
-	
-	cin >> n;
-	for(int i = 1; i <= n; ++i) cin >> a[i].fi;
-	for(int i = 1; i <= n; ++i) cin >> a[i].se;
-	
-	
-	for(int i = 1; i <= n; ++i) {
-		int res1 = findbest(i);
-		int res2 = findworst(i);
+	cin >> t;
+	while(t--) {
+		cin >> n;
+		if(n < 9) {
+			int prod = 1;
+			for(int i = 1; i <= n; ++i) prod *= i;
+			cout << (prod%9 ? prod%9 : 9) << "\n";
+		}
 		
-		cout << res1 << " " << res2 << '\n';
+		else cout << 9 << "\n";
 	}
 	
 	
