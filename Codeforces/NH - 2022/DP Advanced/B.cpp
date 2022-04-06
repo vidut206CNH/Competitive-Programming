@@ -16,9 +16,10 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 205;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
+
 
 typedef vector<int> vi;
 int ins(int b) {
@@ -104,15 +105,6 @@ bool operator<(const vi &a, const vi &b) {
     return false;
 }
 
-bool operator>=(const vi &a, const vi &b) {
-	if(a.size() != b.size()) return sz(a) > sz(b);
-	for(int i = a.size() - 1; i >= 0; i--) {
-		if(a[i] != b[i]) return a[i] > b[i];
-	}
-	
-	return true;
-}
-
 istream &operator>>(istream &cin,vi &a) {
 	string s;
 	cin >> s;
@@ -131,84 +123,89 @@ ostream &operator<<(ostream &cout,const vi &a) {
 	return cout;
 }
 
-vi conv(int a) {
-	vector<int> res;
-	while(a) {
-		res.push_back(a%10);
-		a /= 10;
+vi conv(int val) {
+	vi ans;
+	while(val) {
+		ans.push_back(val%10);
+		val /= 10;
 	}
 	
-	if(sz(res) == 0) res.push_back(0);
-	//reverse(res.begin(), res.end());
-	return res;
+	if(sz(ans) == 0) ans.push_back(0);
+	return ans;
 }
 
 
-vi f[55];
 int n;
-bool ok[55];
-int a[55];
+vi dp[MAXN1][MAXN1];
+int a[MAXN1];
+int res[MAXN1];
+
 
 signed main() {
 	fast_cin();
 	
 	cin >> n;
-	f[0] = conv(1);
-	for(int i = 1;i <= n; ++i) {
-		f[i] = f[i - 1]*conv(i);
-		//cout << f[i] << "\n";
-	}
-	cout << f[n] << "\n";
-	int type;
-	while(cin >> type) {
-		if(type == 1) {
-			memset(ok, false, sizeof ok);
-			for(int i = 1; i <= n; ++i) cin >> a[i];
-			vi res = conv(0);
-			
-			for(int i = 1; i <= n; ++i) {
-				int cnt = 0;
-				for(int k = 1; k < a[i]; ++k) {
-					cnt += (!ok[k]);
-				}
-				//cout << f[n - i];
-				res = res + conv(cnt)*f[n - i];
-				
-				ok[a[i]] = true;
+	dp[2*n][0] = conv(1);
+	
+	for(int pos = 2*n; pos > 0; --pos) {
+		for(int val = 0; val <= 2*n; ++val) {
+			if(val != 0) {
+				dp[pos - 1][val - 1] = dp[pos - 1][val - 1] + dp[pos][val];
 			}
 			
-			cout << res + conv(1) << "\n";
+			dp[pos - 1][val + 1] = dp[pos - 1][val + 1] + dp[pos][val];
+		}
+	}
+	
+	cout << dp[0][0]  << "\n";
+	int type;
+	
+	while(cin >> type) {
+		if(type == 1) {
+			for(int i = 0; i <= 2*n; ++i) {
+				cin >> a[i];
+			}
+			
+			res[0] = 0;
+			res[1] = 1;
+			vi sum = conv(0);
+			for(int i = 2; i <= 2*n; ++i) {
+				if(a[i] == a[i - 1] + 1 && a[i] != 1) {
+					sum = sum + dp[i][a[i - 1] - 1];
+				}
+			}
+			
+			cout << sum + conv(1) << "\n";
 		}
 		
 		else {
-			vi P;
-			cin >> P;
-			memset(ok, false, sizeof ok);
-			vector<int> res(n + 1);
+			vi k;
+			cin >> k;
+			
+			res[0] = 0;
+			res[1] = 1;
 			vi sum = conv(0);
-			for(int pos = 1; pos <= n; ++pos) {
-				int cnt = 1;
-				for(int k = 1; k <= n; ++k) {
-					if(ok[k]) continue;
-					//cout << P << " " << sum + conv(cnt)*f[n - pos] << "\n";
-					if(sum + conv(cnt)*f[n - pos] >= P) {
-						sum = sum + conv(cnt - 1)*f[n - pos];
-						//db(pos);
-						//db(k);
-						//cerr << "\n";
-						res[pos] = k;
-						ok[k] = true;
-						break;
-					}
-					cnt++;
+			for(int i = 2; i <= 2*n; ++i) {
+				//cout << sum << " " << i << "\n";
+				if(res[i - 1] == 0) {
+					res[i] = res[i - 1] + 1;
+					continue;
+				}
+				
+				if((sum + dp[i][res[i - 1] - 1] < k)) {
+					sum = sum + dp[i][res[i - 1] - 1];
+					res[i] = res[i - 1] + 1;
+					continue;
+				}
+				
+				else {
+					res[i] = res[i - 1] - 1;
 				}
 			}
 			
-			for(int i = 1; i <= n; ++i) cout << res[i] << " \n"[i == n];
+			for(int i = 0; i <= 2*n; ++i) cout << res[i] << " \n"[i == 2*n];
 		}
 	}
-	
-	
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

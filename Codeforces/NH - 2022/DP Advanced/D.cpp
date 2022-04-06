@@ -32,6 +32,7 @@ int ins(int b) {
 }
 
 void fix(vi &a) {
+	int cur = 0,tmp;
 	a.pb(0);
 	for(int i=0;i<a.size()-1;++i) {
 		a[i + 1] += a[i]/10;
@@ -104,15 +105,6 @@ bool operator<(const vi &a, const vi &b) {
     return false;
 }
 
-bool operator>=(const vi &a, const vi &b) {
-	if(a.size() != b.size()) return sz(a) > sz(b);
-	for(int i = a.size() - 1; i >= 0; i--) {
-		if(a[i] != b[i]) return a[i] > b[i];
-	}
-	
-	return true;
-}
-
 istream &operator>>(istream &cin,vi &a) {
 	string s;
 	cin >> s;
@@ -131,82 +123,24 @@ ostream &operator<<(ostream &cout,const vi &a) {
 	return cout;
 }
 
-vi conv(int a) {
-	vector<int> res;
-	while(a) {
-		res.push_back(a%10);
-		a /= 10;
+
+int len, depth;
+vi k;
+
+vi dp[105][105][105];
+
+vi calc(int pos, int diff, int deg)  {
+	if(pos == len + 1) {
+		
 	}
-	
-	if(sz(res) == 0) res.push_back(0);
-	//reverse(res.begin(), res.end());
-	return res;
 }
 
-
-vi f[55];
-int n;
-bool ok[55];
-int a[55];
 
 signed main() {
 	fast_cin();
 	
-	cin >> n;
-	f[0] = conv(1);
-	for(int i = 1;i <= n; ++i) {
-		f[i] = f[i - 1]*conv(i);
-		//cout << f[i] << "\n";
-	}
-	cout << f[n] << "\n";
-	int type;
-	while(cin >> type) {
-		if(type == 1) {
-			memset(ok, false, sizeof ok);
-			for(int i = 1; i <= n; ++i) cin >> a[i];
-			vi res = conv(0);
-			
-			for(int i = 1; i <= n; ++i) {
-				int cnt = 0;
-				for(int k = 1; k < a[i]; ++k) {
-					cnt += (!ok[k]);
-				}
-				//cout << f[n - i];
-				res = res + conv(cnt)*f[n - i];
-				
-				ok[a[i]] = true;
-			}
-			
-			cout << res + conv(1) << "\n";
-		}
-		
-		else {
-			vi P;
-			cin >> P;
-			memset(ok, false, sizeof ok);
-			vector<int> res(n + 1);
-			vi sum = conv(0);
-			for(int pos = 1; pos <= n; ++pos) {
-				int cnt = 1;
-				for(int k = 1; k <= n; ++k) {
-					if(ok[k]) continue;
-					//cout << P << " " << sum + conv(cnt)*f[n - pos] << "\n";
-					if(sum + conv(cnt)*f[n - pos] >= P) {
-						sum = sum + conv(cnt - 1)*f[n - pos];
-						//db(pos);
-						//db(k);
-						//cerr << "\n";
-						res[pos] = k;
-						ok[k] = true;
-						break;
-					}
-					cnt++;
-				}
-			}
-			
-			for(int i = 1; i <= n; ++i) cout << res[i] << " \n"[i == n];
-		}
-	}
+	
+	
 	
 	
 	

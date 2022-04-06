@@ -20,30 +20,77 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int L, R;
+int l, r, n;
+int dp[20][2][2][3][3][3][3][3][3][3][3][3][3];
 vector<int> digits;
 
-int dp[20][(1 << 10) + 3][(1 << 10) + 3];
+
+int calc(int pos, bool equal, bool positive, vector<int> &c) {
+	if(pos == sz(digits)) {
+		if(positive) return 1;
+		return 0;
+	}
+	int& res = dp[pos][equal][positive][c[0]][c[1]][c[2]][c[3]][c[4]][c[5]][c[6]][c[7]][c[8]][c[9]];
+	if(res != -1) return res;
+	
+	res = 0;
+	
+	for(int i = 0; i <= 9; ++i) {
+		bool positive2 = (positive || i > 0);
+		
+		if(equal && i > digits[pos]) break;
+		
+		
+		bool equal2 = (equal && i == digits[pos]);
+		
+		vector<int> next = c;
+		
+		if(i == 0) {
+			if(positive2 && next[0] < 2) {
+				next[0]++;
+				res = res + calc(pos + 1, equal2, positive2, next);
+			}
+			else if(!positive2) {
+				res = res + calc(pos + 1, equal2, positive2, next);
+			}
+		}
+		
+		else {
+			if(next[i] < 2) {
+				next[i]++;
+				res = res + calc(pos + 1, equal2, positive2, next);
+			}
+		}
+	}
+	return res;
+}
 
 
 int solve(int val) {
 	digits.clear();
-	int g = val;
-	while(g) {
-		digits.push_back(g%10);
-		g /= 10;
-	}
+	digits.push_back(0);
 	
-	reverse(digits.begin(), digits.end());
+	while(val) {
+		digits.push_back(val%10);
+		val /= 10;
+	}
+	if(sz(digits) == 1) digits.push_back(0);
+	
+	reverse(digits.begin() + 1, digits.end());
+	
+	vector<int> c(10,0);
+	
+	memset(dp, -1, sizeof dp);
+	
+	return calc(1, 1, 0, c);
 }
 
 signed main() {
 	fast_cin();
 	
 	
-	cin >> L >> R;
-	
-	cout << solve(R) - solve(L - 1);
+	cin >> l >> r;
+	cout << solve(r) - solve(l - 1);
 	
 	
 	
