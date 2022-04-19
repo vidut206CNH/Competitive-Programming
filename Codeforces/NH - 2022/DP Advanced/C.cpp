@@ -20,6 +20,7 @@ const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
+
 typedef vector<int> vi;
 int ins(int b) {
 	if(b==0) return 1;
@@ -104,19 +105,6 @@ bool operator<(const vi &a, const vi &b) {
     return false;
 }
 
-
-bool operator>=(const vi& a, const vi& b) {
-	if(a.size() != b.size()) return a.size() > b.size();
-	
-	for(int i = a.size() - 1; i >= 0; --i) {
-		if(a[i] != b[i]) {
-			return a[i] > b[i];
-		}
-	}
-	
-	return true;
-}
-
 istream &operator>>(istream &cin,vi &a) {
 	string s;
 	cin >> s;
@@ -135,63 +123,131 @@ ostream &operator<<(ostream &cout,const vi &a) {
 	return cout;
 }
 
-
-int len, depth;
-vi k;
-
-vi dp[105][105][105];
-
-vi calc(int pos, int diff, int deg)  {
-/*	db(pos);
-	db(diff);
-	db(deg);
-	cerr << "\n";*/
-	if(pos == len) {
-		return dp[pos][diff][deg] = {(diff == 0 && deg == depth)};
+bool operator >= (const vi& A, const vi& B) {
+	if(sz(A) != sz(B)) return sz(A) > sz(B);
+	for(int i = sz(A) - 1; i >= 0; --i) {
+		if(A[i] != B[i]) return A[i] > B[i];
 	}
 	
-	if(sz(dp[pos][diff][deg])) return dp[pos][diff][deg];
-	
-	vi res;
-	
-	res = res + calc(pos + 1, diff + 1, max(deg, diff + 1));
-	
-	if(diff != 0) {
-		res = res + calc(pos + 1, diff - 1, max(deg, diff - 1));
-	}
-	
-	return dp[pos][diff][deg] = res;
-	
+	return true;
 }
 
+int n;
+vi k;
+vi dp[1005][1005][2];
+bool choose[1005];
+
+
+vi calc(int pos, int less, bool dir) {
+	if(pos == n + 1) {
+		return dp[pos][less][dir] = {(less == 0)};
+	}
+	
+	if(sz(dp[pos][less][dir])) return dp[pos][less][dir];
+	vi res;
+	
+	if(dir == false) {
+		for(int val = less + 1;val <= n - pos + 1; ++val) {
+			res = res + calc(pos + 1, val - 1, !dir);		
+		}
+	}
+	
+	else {
+		for(int val = 1; val <= less; ++val) {
+			res = res + calc(pos + 1, val - 1, !dir);
+		}
+	}
+	
+	return dp[pos][less][dir] = res;
+}
+
+int res[1005];
 
 signed main() {
 	fast_cin();
 	
-	cin >> len >> depth >> k;
 	
-	cout << calc(0, 0, 0) << "\n";
-
-	
-	vi sum = {0};
-	int diff = 1, deg = 1;
-	string res = "(";
-	for(int pos = 2; pos <= len; ++pos) {
-		if(diff != 0 && (sum + dp[pos][diff - 1][deg] >= k)) {
-			--diff;
-			res += ')';
+	while(cin >> n) {
+		cin >> k;
+		
+		for(int i = 1; i <= n; ++i) res[i] = 0;
+		for(int i = 1; i <= n; ++i) choose[i] = 0;
+		
+		for(int i = 0; i <= n + 1; ++i) {
+			for(int j = 0; j <= n + 1; ++j) {
+				for(int dir = 0; dir < 2; ++dir) {
+					dp[i][j][dir].clear();
+				}
+			}
 		}
 		
-		else {
-			if(diff != 0) sum = sum + dp[pos][diff - 1][deg];
-			++diff;
-			deg = max(deg, diff);
-			res += '(';
+		vi rem;
+		bool D = 0;
+		
+		for(int val = 1; val <= n; ++val) {
+			for(int dir = 1; dir >= 0; --dir) {
+				if(rem + calc(2, val - 1, dir) >= k) {
+					res[1] = val;
+					choose[val] = true;
+					D = dir;
+					break;
+				}
+				rem = rem + calc(2, val - 1, dir);
+			}
+			
+			if(res[1] != 0) break;
+		}
+		
+		for(int pos = 2; pos <= n; ++pos) {
+			if(D) {
+				int less = 0;
+				
+				for(int val = 1; val < res[pos - 1]; ++val) {
+					if(choose[val]) continue;
+					if(rem + calc(pos + 1, less, !D) >= k) {
+						choose[val] = true;
+						res[pos] = val;
+						D ^= 1;
+						break;
+					}
+					
+					less++;
+					rem = rem + calc(pos + 1, less - 1, !D);
+				}
+				
+			}
+			
+			else {
+				int less = 0;
+				for(int val = 1; val <= n; ++val) {
+					if(choose[val]) continue;
+					if(val <= res[pos - 1]) {
+						less++;
+						continue;
+					}
+					
+					if(rem + calc(pos + 1, less, !D) >= k) {
+						choose[val] = true;
+						res[pos] = val;
+						D ^= 1;
+						break;
+					}
+					
+					less++;
+					rem = rem + calc(pos + 1, less - 1, !D);
+					
+				}
+			}
+		}
+		
+		for(int i = 1; i <= n; ++i) {
+			cout << res[i] << " \n"[i == n];
 		}
 	}
 	
 	
-	cout << res;
+	
+	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
     #endif
