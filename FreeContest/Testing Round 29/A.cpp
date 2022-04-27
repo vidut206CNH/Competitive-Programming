@@ -16,60 +16,55 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e4 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m,s,f;
-int dp[2][MAXN1];
-vector<int> child[MAXN1];
-bool visited[MAXN1];
-bool par[MAXN1];
-
-void dfs(int u) {
-	dp[0][u] = s;
-	dp[1][u] = f;
-	
-	for(int v : child[u]) {
-		dfs(v);
-		
-		dp[0][u] += min(dp[0][v], dp[1][v]);
-		dp[1][u] += min(dp[1][v], dp[0][v] - s);
-		
-	}
-	
-/*	db(u);
-	db(dp[0][u]);
-	db(dp[1][u]);
-	cerr << "\n";*/
-	
-}
+int n;
+string s;
+int a[30];
+char res[MAXN1];
 
 signed main() {
 	fast_cin();
 	
+	cin >> n >> s;
+	for(int i = 0; i < 26; ++i) cin >> a[i];
+	bool bad = false;
 	
-	cin >> n >> m >> s >> f;
-	
-	for(int i = 1; i <= m; ++i) {
-		int u,v;
-		cin >> u >> v;
-		child[u].push_back(v);
-		par[v] = true;
-	}
-	
-	int res = 0;
-	
-	for(int i = 1; i <= n; ++i) {
-		if(!par[i]) {
-			dfs(i);
-			res += min(dp[0][i], dp[1][i]);
+	for(int i = 0; i < n; ++i) {
+		if(s[i] != '?') {
+			a[s[i] - 'a']--;
+			res[i] = s[i];
 		}
 	}
 	
-	cout << res;
+	for(int i = 0; i < n; ++i) {
+		if(s[i] == '?') {
+			for(int c = 0; c < 26; ++c) {
+				if(a[c] > 0) {
+					a[c]--;
+					res[i] = (c + 'a');
+					break;
+				}
+				
+				if(c == 25) {
+					bad = true;
+				}
+			}
+		}
+	}
 	
 	
+	for(int i = 0; i < 26; ++i) {
+		bad |= (a[i] != 0);
+	}
+	
+	if(bad) {
+		cout << -1;
+		return 0;
+	}
+	for(int i = 0; i < n; ++i) cout << res[i];
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

@@ -16,58 +16,32 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e4 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m,s,f;
-int dp[2][MAXN1];
-vector<int> child[MAXN1];
-bool visited[MAXN1];
-bool par[MAXN1];
-
-void dfs(int u) {
-	dp[0][u] = s;
-	dp[1][u] = f;
-	
-	for(int v : child[u]) {
-		dfs(v);
-		
-		dp[0][u] += min(dp[0][v], dp[1][v]);
-		dp[1][u] += min(dp[1][v], dp[0][v] - s);
-		
-	}
-	
-/*	db(u);
-	db(dp[0][u]);
-	db(dp[1][u]);
-	cerr << "\n";*/
-	
-}
+int n;
+int a[MAXN1];
+int res[MAXN1];	
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m >> s >> f;
-	
-	for(int i = 1; i <= m; ++i) {
-		int u,v;
-		cin >> u >> v;
-		child[u].push_back(v);
-		par[v] = true;
-	}
-	
-	int res = 0;
-	
+	cin >> n;
 	for(int i = 1; i <= n; ++i) {
-		if(!par[i]) {
-			dfs(i);
-			res += min(dp[0][i], dp[1][i]);
-		}
+		cin >> a[i];
 	}
 	
-	cout << res;
+	res[1] = (1LL << a[1]);
+	for(int i = 1; i <= n; ++i) {
+		int val = (1LL << a[i]);
+		int d = (res[i - 1] + val)/val;
+		if(d%2 == 0) ++d;
+		res[i] = d*val; 
+	}
+	
+	//for(int i = 1; i <= n; ++i) cout << res[i] << " ";
+	cout << res[n];
 	
 	
 	

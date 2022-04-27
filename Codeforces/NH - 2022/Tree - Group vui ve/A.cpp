@@ -16,58 +16,64 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e4 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m,s,f;
-int dp[2][MAXN1];
-vector<int> child[MAXN1];
-bool visited[MAXN1];
-bool par[MAXN1];
-
-void dfs(int u) {
-	dp[0][u] = s;
-	dp[1][u] = f;
-	
-	for(int v : child[u]) {
-		dfs(v);
-		
-		dp[0][u] += min(dp[0][v], dp[1][v]);
-		dp[1][u] += min(dp[1][v], dp[0][v] - s);
-		
-	}
-	
-/*	db(u);
-	db(dp[0][u]);
-	db(dp[1][u]);
-	cerr << "\n";*/
-	
-}
+int n;
+vector<int> adj[MAXN1];
+map<pii, int> mp;
+vector<pii> p;
 
 signed main() {
 	fast_cin();
 	
-	
-	cin >> n >> m >> s >> f;
-	
-	for(int i = 1; i <= m; ++i) {
+	cin >> n;
+	for(int i = 1; i < n; ++i) {
 		int u,v;
 		cin >> u >> v;
-		child[u].push_back(v);
-		par[v] = true;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+		p.push_back({u,v});
+		
 	}
 	
-	int res = 0;
-	
+	bool ok = true;
 	for(int i = 1; i <= n; ++i) {
-		if(!par[i]) {
-			dfs(i);
-			res += min(dp[0][i], dp[1][i]);
+		ok &= (sz(adj[i]) <= 2);
+	}
+	
+	if(ok) {
+		for(int i = 0; i <= n - 2; ++i) cout << i << "\n";
+		return 0;
+	}
+	
+	
+	for(int u = 1; u <= n; ++u) {
+		if(sz(adj[u]) >= 3) {
+			for(int i = 0; i < 3; ++i) {
+				int v = *adj[u].begin();
+				mp[{u, v}] = i + 1;
+				mp[{v, u}] = i + 1;
+				adj[u].erase(adj[u].begin());
+				
+			}
+			break;
+		}
+	}
+	int cnt = 3;
+	
+	for(int u = 1; u <= n; ++u) {
+		for(auto v : adj[u]) {
+			if(mp[{u,v}]) continue;
+			mp[{u, v}] = ++cnt;
+			mp[{v, u}] = cnt;
 		}
 	}
 	
-	cout << res;
+	for(auto x : p) {
+		cout << mp[x] - 1 << "\n";
+	}
 	
 	
 	

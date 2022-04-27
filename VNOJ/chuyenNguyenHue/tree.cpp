@@ -16,58 +16,53 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 2e4 + 5;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m,s,f;
-int dp[2][MAXN1];
-vector<int> child[MAXN1];
-bool visited[MAXN1];
-bool par[MAXN1];
+int f[3][MAXN1];
 
-void dfs(int u) {
-	dp[0][u] = s;
-	dp[1][u] = f;
-	
-	for(int v : child[u]) {
-		dfs(v);
-		
-		dp[0][u] += min(dp[0][v], dp[1][v]);
-		dp[1][u] += min(dp[1][v], dp[0][v] - s);
-		
-	}
-	
-/*	db(u);
-	db(dp[0][u]);
-	db(dp[1][u]);
-	cerr << "\n";*/
-	
-}
+
 
 signed main() {
 	fast_cin();
 	
 	
-	cin >> n >> m >> s >> f;
-	
-	for(int i = 1; i <= m; ++i) {
-		int u,v;
-		cin >> u >> v;
-		child[u].push_back(v);
-		par[v] = true;
-	}
-	
-	int res = 0;
+	int n;
+	vector<int> p(3);
+	cin >> n;
+	for(int i = 0; i < 3; ++i) cin >> p[i];
 	
 	for(int i = 1; i <= n; ++i) {
-		if(!par[i]) {
-			dfs(i);
-			res += min(dp[0][i], dp[1][i]);
+		int x;
+		cin >> x;
+		
+		for(int k = 0; k < 3; ++k) {
+			f[k][i] = f[k][i - 1] + (k == x);
+		}
+		
+	}
+	int res = n + 1;
+	
+	for(int i = 1; i <= n; ++i) {
+		int low = i, high = n;
+		while(low <= high) {
+			int mid = (low + high) >> 1;
+			bool good = true;
+			
+			for(int k = 0; k < 3; ++k) {
+				good &= (f[k][mid] - f[k][i - 1] >= p[k]);
+			}
+			
+			if(good) {
+				res = min(res, mid + 1 - i);
+				high = mid - 1;
+			}
+			else low = mid + 1;
 		}
 	}
 	
-	cout << res;
+	cout << (res == n + 1 ? -1 : res);
 	
 	
 	

@@ -21,10 +21,54 @@ const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 
-int 
+int n;
+char s[MAXN1];
+int f[MAXN1];
+int p[MAXN1];
+// 0 ~ -1
+// 1 ~ 0
+// 2 ~ +1
+
+int prefix_pos[3][MAXN1];
+int sufix_pos[3][MAXN1];
+
 
 signed main() {
 	fast_cin();
+	
+	memset(prefix_pos, -1, sizeof prefix_pos);
+	memset(sufix_pos, -1, sizeof sufix_pos);
+	
+	
+	cin >> n;
+	int cnt_zero = 0;
+	for(int i = 1; i <= n; ++i) {
+		cin >> s[i];
+		f[i] = f[i - 1];
+		if(s[i] == '1') f[i]++;
+		else if(s[i] == '2') f[i]--;
+		
+		cnt_zero += (s[i] == '0');
+		
+		p[i] = i - cnt_zero;
+	}
+	
+	for(int i = 1; i <= n; ++i) {
+		prefix_pos[0][i] = (f[i] < 0 ? i : prefix_pos[0][i - 1]);
+		prefix_pos[1][i] = (f[i] == 0 ? i : prefix_pos[1][i - 1]);
+		prefix_pos[2][i] = (f[i] > 0 ? i : prefix_pos[2][i - 1]);
+		db(prefix_pos[0][i]);
+		db(prefix_pos[1][i]);
+		db(prefix_pos[2][i]);
+		cerr << "\n";
+	}
+	
+	for(int i = n; i >= 1; --i) {
+		sufix_pos[0][i] = (f[i] < 0 ? i : sufix_pos[0][i + 1]);
+		sufix_pos[1][i] = (f[i] == 0 ? i : sufix_pos[1][i + 1]);
+		sufix_pos[2][i] = (f[i] > 0 ? i : sufix_pos[2][i + 1]);  
+	}
+	
 	
 	
 	
