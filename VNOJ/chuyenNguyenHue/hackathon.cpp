@@ -16,33 +16,69 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
+const int MAXN1 = 3e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-struct prob{
-	int a,b,c;
-};
-
-
-int n;
-prob p[MAXN1];
+int m,n,p, k;
+int A[MAXN1];
+int B[MAXN1];
+int C[MAXN1];
+int id[MAXN1];
+int besta[MAXN1];
+int bestb[MAXN1];
 
 signed main() {
 	fast_cin();
-	
-	
-	cin >> n;
-	for(int i = 1; i <= n; ++i) cin >> p[i].a >> p[i].b >> p[i].c;
-	
-	
-	priority_queue<pair<pii, pii> > pq;
-	pq.push_back({{m,n}, {p, 0}});
-	
-	while(!pq.empty()) {
-		int cm = 
+
+	cin >> m >> n >> p;
+	k = m + n + p;
+	int sumc = 0;
+	for(int i = 1; i <= k; ++i) {
+		cin >> A[i] >> B[i] >> C[i];
+		sumc += C[i];
+		A[i] -= C[i];
+		B[i] -= C[i];
+		id[i] = i;
 	}
 	
+	
+	sort(id + 1, id + k + 1, [&](const int &i, const int &j) {
+		return A[i] - B[i] < A[j] - B[j];
+	});
+	
+	int suma = 0, sumb = 0;
+	priority_queue<int> pa, pb;
+	
+	for(int i = 1; i <= k; ++i) {
+		suma += A[id[i]];
+		pa.push(A[id[i]]);
+		if(sz(pa) > m) {
+			suma -= pa.top();
+			pa.pop();
+		}
+		
+		besta[i] = suma;
+	}
+	
+	
+	for(int i = k; i >= 1; --i) {
+		sumb += B[id[i]];
+		pb.push(B[id[i]]);
+		if(sz(pb) > n) {
+			sumb -= pb.top();
+			pb.pop();
+		}
+		
+		bestb[i] = sumb;
+	}
+	
+	int res = inf;
+	for(int i = m; i <= k - n; ++i) {
+		res = min(res, besta[i] + bestb[i + 1] + sumc);
+	}
+	
+	cout << res;
 	
 	
 	#ifndef LOCAL_DEFINE

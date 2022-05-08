@@ -3,7 +3,7 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
-//#define int long long
+#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -16,51 +16,38 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 46656;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
-
-int dp[MAXN1 + 5][1005];
-
-
-void calc(int pos, int state) {
-	if(pos == n + 1) {
-		bool ok = true;
-		int tmp = state;
-		while(tmp) {
-			ok &= ((tmp%m) == 0);
-			tmp /= m;
-		}
-		
-		return ok;
-	}
-	
-	if(dp[state][pos] != -1) return dp[state][pos];
-	
-	vector<int> d(m, 0);
-	int tmp = state;
-	int id = 0;
-	while(tmp) {
-		d[id] = (tmp%m);
-		tmp /= m;
-		++id;
-	}
-	
-	vector<int> next;
-	
-	for(int i = 0; i < m; ++i) {
-		next
-		if(d[i] != 0)
-	}
-}
+int n;
+char a[35];
 
 signed main() {
 	fast_cin();
 	
-	memset(dp, -1, sizeof dp);
-	cin >> n >> m;
+	cin >> n;
+	for(int i = 0; i < 5; ++i) cin >> a[i];
+	
+	int hour = (a[0] - '0')*10 + a[1] - '0';
+	
+	int min = (a[3] - '0')*10 + a[4] - '0';
+	
+	hour += min/60;
+	min %= 60;
+	
+	hour %= n;
+	
+	
+	string res = "";
+	res += ('0' + hour/10);
+	res += ('0' + hour%10);
+	res += ':';
+	
+	res += ('0' + min/10);
+	res += ('0' + min%10);
+	
+	cout << res;
 	
 	
 	

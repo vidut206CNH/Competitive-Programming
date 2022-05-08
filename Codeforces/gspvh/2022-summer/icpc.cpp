@@ -16,52 +16,46 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 46656;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 1e18;
+//const int inf = 1e18;
 
-int n,m;
-
-int dp[MAXN1 + 5][1005];
-
-
-void calc(int pos, int state) {
-	if(pos == n + 1) {
-		bool ok = true;
-		int tmp = state;
-		while(tmp) {
-			ok &= ((tmp%m) == 0);
-			tmp /= m;
-		}
-		
-		return ok;
-	}
-	
-	if(dp[state][pos] != -1) return dp[state][pos];
-	
-	vector<int> d(m, 0);
-	int tmp = state;
-	int id = 0;
-	while(tmp) {
-		d[id] = (tmp%m);
-		tmp /= m;
-		++id;
-	}
-	
-	vector<int> next;
-	
-	for(int i = 0; i < m; ++i) {
-		next
-		if(d[i] != 0)
-	}
-}
+int n;
+pii a[30];
 
 signed main() {
 	fast_cin();
 	
-	memset(dp, -1, sizeof dp);
-	cin >> n >> m;
 	
+/*	freopen("icpc.inp", "r", stdin);
+	freopen("icpc.out", "w", stdout);*/
+	
+	cin >> n;
+	for(int i = 0; i < n; ++i) {
+		cin >> a[i].fi;
+		a[i].se = i;
+	}
+	
+	
+	
+	sort(a, a + n);
+	int sum = 0, cnt = 0, last = 0;
+	vector<char> p;
+	
+	for(int i = 0; i < n; ++i) {
+		if(last + a[i].fi <= 300) {
+			cnt++;
+			last = last + a[i].fi;
+			sum = last + sum;
+			p.push_back(a[i].se + 'A');
+		}
+		
+		else break;
+	}
+	
+	cout << cnt << " " << sum << " " << last << "\n";
+	sort(p.begin(), p.end());
+	for(auto x : p) cout << x;
 	
 	
 	

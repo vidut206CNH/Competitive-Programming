@@ -3,7 +3,7 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
-//#define int long long
+#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -16,52 +16,49 @@ using namespace std;
 typedef pair<int,int> pii;
 
 const int MOD = 1e9 + 7;
-const int MAXN1 = 46656;
+const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
-int n,m;
+int t;
 
-int dp[MAXN1 + 5][1005];
-
-
-void calc(int pos, int state) {
-	if(pos == n + 1) {
-		bool ok = true;
-		int tmp = state;
-		while(tmp) {
-			ok &= ((tmp%m) == 0);
-			tmp /= m;
-		}
-		
-		return ok;
+int power(int a, int b) {
+	int res = 1;
+	while(b) {
+		if(b&1) res = res*a;
+		a = a*a;
+		b /= 2;
 	}
 	
-	if(dp[state][pos] != -1) return dp[state][pos];
-	
-	vector<int> d(m, 0);
-	int tmp = state;
-	int id = 0;
-	while(tmp) {
-		d[id] = (tmp%m);
-		tmp /= m;
-		++id;
-	}
-	
-	vector<int> next;
-	
-	for(int i = 0; i < m; ++i) {
-		next
-		if(d[i] != 0)
-	}
+	return res;
 }
 
 signed main() {
 	fast_cin();
 	
-	memset(dp, -1, sizeof dp);
-	cin >> n >> m;
 	
+	cin >> t;
+	while(t--) {
+		string a,b;
+		cin >> a >> b;
+		bool all_a = true, has_a = false;
+		for(auto x : b) {
+			has_a |= (x == 'a');
+			all_a &= (x == 'a');
+		}
+		
+		if(all_a && sz(b) == 1) {
+			cout << 1 << "\n";
+		}
+		
+		else if(has_a || all_a) {
+			cout << -1 << "\n";
+		}
+		
+		else cout << power(2, sz(a)) << "\n";
+		
+		
+	}
 	
 	
 	
