@@ -24,7 +24,8 @@ vector<int> topo;
 bool visited[MAXN2];
 int e[MAXN2];
 vector<int> adj[MAXN2];
-map<int,int> dp[MAXN2];
+int dp[MAXN2];
+int cnt[MAXN2];
 
 void dfs(int v) {
 	
@@ -60,27 +61,33 @@ signed main() {
 	
 	reverse(topo.begin(), topo.end());
 	
-	dp[1][(1 == e[1])] = 1;
-	for(int u : topo) {
-		for(auto x : dp[u]) {
-			int state = x.fi;
-			int val = x.se;
-			db(u);
-			db(state);
-			db(val);
-			cerr << "\n";
-			for(auto v : adj[u]) {
-				if(state < p && v == e[state + 1]) {
-					dp[v][state + 1] = (dp[v][state + 1] + val)%MOD;
-				}
-				
-				else dp[v][state] = (val + dp[v][state])%MOD;
+	int c = 0;
+	for(auto u : topo) {
+		c += (u == e[c + 1]);
+		cnt[u] = c;
+/*		db(u);
+		db(cnt[u]);
+		cerr << "\n";*/
+	}
+	
+	dp[1] = 1;
+	
+	for(auto u : topo) {
+/*		db(dp[u]);
+		db(u);*/
+		for(auto v : adj[u]) {
+			if((cnt[v] - cnt[u] == 0) || ((cnt[v] - cnt[u] == 1) && (v == e[cnt[v]]))) {
+				//db(v);
+				dp[v] = (dp[v] + dp[u])%MOD;
 			}
+			
 		}
+		
+		//cerr << "\n";
 	}
 	
 	
-	cout << dp[n][p];
+	cout << dp[n];
 	
 	#ifndef LOCAL_DEFINE
     cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";

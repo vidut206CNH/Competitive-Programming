@@ -1,0 +1,26 @@
+Subtask 1: Với k=1 đây là bài toán tìm đường đi dài nhất trên cây, ta dfs 2 lần sẽ tìm được kết quả
+	
+Subtask 2: n≤20, duyệt thử toàn bộ, duyệt đỉnh xuất phát, sau đó thử đi đến từng đỉnh, mỗi lần cập nhật lại số lượng bánh tại mỗi đỉnh
+	
+Subtask 3: n≤300,k=2, ta sẽ cần duyệt vị trí xuất phát và coi đó là gốc của cây, sau đó sử dụng quy hoạch động trên cây để tìm kết quả tối ưu với đỉnh xuất phát đang xét:
+	gọi dp[u][0] là đường đi dài nhất từ u đi xuống các đỉnh con của u và không quay lại đỉnh cha của u
+	gọi dp[u][1] là đường đi dài nhất từ u xuống các đỉnh con của u sau đó quay ngược trở lại đỉnh cha của u
+	Vì k=2 nên nếu từ u di chuyển rồi quay lại cha thì u chỉ có thể đi xuống một đỉnh con duy nhất do đó dp[u][1]=max⁡(dp[v][1])+2 với v là đỉnh con trực tiếp của u. Còn với trường hợp u không quay trở lại cha thì ta sẽ chọn một đỉnh v_1 để đi xuống rồi quay trở lại sau đó đi xuống v_2 và không quay trở lại nữa, do đó dp[u][0]=max⁡(dp[v_1 ][1]+dp[v_2 ][0])+3
+	Vì phải duyệt v_1,v_2 do đó độ phức tạp cho mỗi lần dp sẽ là O(n^2) => độ phức tạp tổng thể sẽ là O(n^3)
+	
+
+
+
+
+Subtask 4: n≤1000 tương tự như subtask 3 ta  cũng quy hoạch động như trên, nhưng vì k có thể lớn hơn 2 do đó ta sẽ có
+dp[u][1]=max⁡(dp[v_1 ][1]+dp[v_2 ][1]+⋯+dp[v_(k-1) ][1])+2(k-1) ta sẽ cần chọn v_1,v_2,…v_(k-1) sao cho biểu thức là lớn nhất, 
+đây là bài toán cho x số f_icần chọn ra tối đa k-1 số sao cho tổng là lớn nhất, thì ta chỉ cần lấy k-1 số lớn nhất là xong.
+Tương tự dp[u][0]=max⁡(dp[v_1 ][1]+dp[v_2 ][1]+⋯+dp[v_(k-1) ][1]+dp[v_k ][0])+2k-1) để tính được biểu thức này, 
+ta sẽ sắp xếp theo dp[v][1] và dùng mảng cộng dồn để duyệt lần lượt v_k và tính được tổng lớn nhất của k-1 đỉnh còn lại.
+Như vậy ta sẽ có độ phức tạp là O(n^2 logn)
+	
+
+
+
+
+Subtask 5: n≤〖10〗^5, vẫn ý tưởng như subtask 4, tuy nhiên ta sẽ không quy hoạch động lại hoàn toàn với từng đỉnh gốc. Ban đầu ta coi đỉnh 1 là gốc, và quy hoạch động từ đỉnh 1 này, sau đó ta sẽ dfs lần thứ 2 để chuyển dần gốc thành các đỉnh khác. Giả sử đỉnh 2 là đỉnh con trực tiếp của đỉnh 1, khi coi 2 là gốc ta sẽ cần tính dp[1][0] và dp[1][1] khi coi 2 là gốc, để làm điều này, ta chỉ cần xây dựng m[p][u][0] = dp[u][0] khi coi p là cha của u , tương tự m[p][u][1]=dp[u][1] khi coi p là cha của u, số lượng trạng thái cần lưu trữ chính là số cạnh của cây, do đó ta dùng map để lưu trữ các thông tin này, và dựa vào các thông tin này ta sẽ dễ dàng tính lại được dp khi dịch chuyển gốc. Độ phức tạp sẽ là O(nlogn).
