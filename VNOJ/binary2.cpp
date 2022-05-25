@@ -15,20 +15,30 @@ using namespace std;
 
 typedef pair<int,int> pii;
 
-const int MOD = 1e9 + 7;
+const int MOD = 1e9;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
 const int inf = 1e18;
 
 int n,k;
-int f[MAXN1];
+int f[MAXN2];
 
 
 signed main() {
 	fast_cin();
 	
 	cin >> n >> k;
-	f[0] = f[1] = 1;	
+	f[0] = f[1] = 2;
+	
+	for(int i = 2; i <= k; ++i) {
+		f[i] = 2*f[i - 1]%MOD;
+	}
+	
+	for(int i = k + 1; i <= n; ++i) {
+		f[i] = (2*f[i - 1] - f[i - k - 1] + MOD*MOD)%MOD;
+	}
+	
+	cout << f[n]%MOD;
 	
 	
 	#ifndef LOCAL_DEFINE

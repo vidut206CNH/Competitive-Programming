@@ -42,8 +42,8 @@ int calc(int pos, int cntX, int cntY, bool equalL, bool equalR, bool posi) {
 		int cntX1 = cntX - (num == X);
 		int cntY1 = cntY - (num == Y);
 		
-		if(X == 0 && posi1 == false) cntX1++;
-		if(Y == 0 && posi1 == false) cntY1++;
+		if(X == 0 && posi1 == false && num == X) cntX1++;
+		if(Y == 0 && posi1 == false && num == Y) cntY1++;
 		
 		if(cntX1 < 0 || cntY1 < 0) continue;
 		
@@ -57,8 +57,8 @@ int calc(int pos, int cntX, int cntY, bool equalL, bool equalR, bool posi) {
 signed main() {
 	fast_cin();
 	
-	freopen("MAXMUL.INP", "r", stdin);
-	freopen("MAXMUL.OUT", "w", stdout);
+/*	freopen("MAXMUL.INP", "r", stdin);
+	freopen("MAXMUL.OUT", "w", stdout);*/
 	
 	
 	int t;
