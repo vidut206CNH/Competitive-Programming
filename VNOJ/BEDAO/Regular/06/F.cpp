@@ -62,12 +62,12 @@ signed main() {
 		
 		cout << res;
 		exit(0);
-	}
+	}	
 	
 	if(n == 2 && cnt[1] == cnt[2]) {
-		int g = f[len]*power(f[len/2], MOD - 2)%MOD*power(f[len/2 + 1], MOD - 2)%MOD;
+		int g = f[len]*power(f[len/2], MOD - 2)%MOD*power(f[len/2 + 1], MOD - 2)%MOD*f[len/2]%MOD*f[len/2]%MOD;
 		//db(g);
-		int d = (f[len]*power(f[len/2], MOD - 2)%MOD*power(f[len/2], MOD - 2)%MOD - g + MOD*MOD)%MOD;
+		int d = (f[len] - g + MOD*MOD)%MOD;
 		//db(d);
 		cout << ((g*val[1]%MOD + d*val[2]%MOD)%MOD);
 	}

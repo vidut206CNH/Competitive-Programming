@@ -3,7 +3,6 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -18,10 +17,9 @@ typedef pair<int,int> pii;
 const int MOD = 1e9 + 7;
 const int MAXN1 = 1e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 1e18;
 
 
-signed main() {
+int main() {
 	fast_cin();
 	
 	

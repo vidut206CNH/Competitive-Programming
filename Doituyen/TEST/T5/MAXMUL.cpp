@@ -3,6 +3,7 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
+#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -19,7 +20,7 @@ const int MAXN1 = 20;
 const int MAXN2 = 1e6+5;
 
 int L, R, X, Y;
-int dp[20][20][20][2][2][2];
+int dp[25][25][25][2][2][2];
 vector<int> digitL, digitR;
 
 int calc(int pos, int cntX, int cntY, bool equalL, bool equalR, bool posi) {
@@ -42,8 +43,8 @@ int calc(int pos, int cntX, int cntY, bool equalL, bool equalR, bool posi) {
 		int cntX1 = cntX - (num == X);
 		int cntY1 = cntY - (num == Y);
 		
-		if(X == 0 && posi1 == false && num == X) cntX1++;
-		if(Y == 0 && posi1 == false && num == Y) cntY1++;
+		if(X == 0 && posi1 == false) cntX1++;
+		if(Y == 0 && posi1 == false) cntY1++;
 		
 		if(cntX1 < 0 || cntY1 < 0) continue;
 		
@@ -70,6 +71,7 @@ signed main() {
 		digitR.clear();
 		
 		cin >> L >> R >> X >> Y;
+		
 		int tmpL = L, tmpR = R;
 		while(tmpL) {
 			digitL.push_back(tmpL%10);
@@ -80,6 +82,7 @@ signed main() {
 			digitR.push_back(tmpR%10);
 			tmpR /= 10;
 		}
+		
 		digitR.push_back(0);
 		digitL.push_back(0);
 		while(sz(digitL) < sz(digitR)) digitL.push_back(0);
