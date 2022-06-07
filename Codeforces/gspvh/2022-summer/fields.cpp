@@ -27,8 +27,8 @@ long long f[MAXN1];
 int main() {
 	fast_cin();
 	
-/*	freopen("fields.inp", "r", stdin);
-	freopen("fields.out", "w", stdout);*/
+	freopen("fields.inp", "r", stdin);
+	freopen("fields.out", "w", stdout);
 	
 	cin >> t;
 	cin >> n >> lim >> cost;
