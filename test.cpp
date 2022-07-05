@@ -1,35 +1,90 @@
-/* 
-	Author : vidut_206_CNH
-*/
-#include <bits/stdc++.h>
-using namespace std;
-#define int long long
-#define fi first
-#define se second
-#define pb push_back
-#define gcd(a,b) (__gcd(a,b))
-#define lcm(a,b) (a/gcd(a,b)*b)
-#define sz(x) (int)(x.size())
-#define fast_cin() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define db(x) cerr << "[" << "Line " << __LINE__ << " : " << (#x) << " = " << x << "] "
-
-typedef pair<int,int> pii;
-
+#include "bits/stdc++.h"
+#define db(x) std::cerr << "[" << "Line " << __LINE__ << " : " << (#x) << " = " << x << "] "
 const int MOD = 1e9 + 7;
-const int MAXN1 = 1e5+5;
-const int MAXN2 = 1e6+5;
-const int inf = 1e18;
 
+int two(int x) {
+    return 1LL<<x;
+}
+int contains(int s, int x) {
+    return (s >> x) & 1;
+}
 
-signed main() {
-	fast_cin();
-	
-	
-	
-	
-	#ifndef LOCAL_DEFINE
-    cerr << "\nTime elapsed: " << 1.0 * (double)clock() / CLOCKS_PER_SEC << " s.\n ";
-    #endif
-	
-	return 0;
+// Given array D[i]
+// Calculate D'[i] = sum( D[j] : j is superset of i )
+void magic(std::vector<int>& D, int K) {
+    std::reverse(D.begin(), D.end());
+    for (int i = 0; i < K; ++i)
+        for (int mask = 0; mask < (1 << K); ++mask)
+            if ((mask >> i) & 1) D[mask] += D[mask ^ (1 << i)];
+    std::reverse(D.begin(), D.end());
+}
+
+int32_t main() {
+    std::ios::sync_with_stdio(0); std::cin.tie(0);
+
+    std::vector<int> p2(1000111);
+    p2[0] = 1;
+    for (int i = 1; i < (int) p2.size(); i++) {
+        p2[i] = p2[i-1] * 2 % MOD;
+    }
+
+    int nCities, nFriends; std::cin >> nCities >> nFriends;
+    std::vector<int> a(nCities, two(nFriends) - 1);
+    std::vector<int> b(nCities, two(nFriends) - 1);
+    
+    for (int i = 0; i < nFriends; i++) {
+        int k; std::cin >> k;
+
+        for (int t = 0; t < k; t++) {
+            int x; std::cin >> x;
+            if (x > 0) {
+                a[x - 1] -= two(i);
+            } else {
+                b[-x - 1] -= two(i);
+            }
+        }
+    }
+
+    // a[i] = set of requirements NOT containing +i
+    // b[i] = set of requirements NOT containing -i
+    // a[i] & b[i] = set of requirements NOT containing +i NOR -i
+
+    std::vector<int> cnt_a(two(nFriends));
+    std::vector<int> cnt_b(two(nFriends));
+    std::vector<int> cnt_a_and_b(two(nFriends));
+    for (int i = 0; i < nCities; i++) {
+        cnt_a[a[i]]++;
+        cnt_b[b[i]]++;
+        cnt_a_and_b[a[i] & b[i]]++;
+        db(a[i]);
+        db(b[i]);
+    	std::cerr << "\n";
+    }
+
+    magic(cnt_a, nFriends);
+    magic(cnt_b, nFriends);
+    magic(cnt_a_and_b, nFriends);
+
+    // cnt_a[mask] = how many +i NOT in submask of mask
+    // cnt_b[mask] = how many -i NOT in submask of mask
+
+    int res = 0;
+    for (int mask = 0; mask < two(nFriends); mask++) {
+        int pos = nCities - cnt_a[mask];
+        int neg = nCities - cnt_b[mask];
+        int common = pos + neg - (nCities - cnt_a_and_b[mask]);
+
+        if (common == 0) {
+            int cur = p2[nCities - pos - neg];
+            if (__builtin_popcount(mask) % 2) {
+                res = (res - cur + MOD) % MOD;
+            } else {
+                res = (res + cur) % MOD;
+            }
+        }
+        
+        db(res);
+    }
+    std::cout << res << std::endl;
+    return 0;
 }

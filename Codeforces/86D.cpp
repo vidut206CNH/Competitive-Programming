@@ -3,7 +3,6 @@
 */
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
 #define fi first
 #define se second
 #define pb push_back
@@ -18,68 +17,70 @@ typedef pair<int,int> pii;
 const int MOD = 1e9 + 7;
 const int MAXN1 = 2e5+5;
 const int MAXN2 = 1e6+5;
-const int inf = 1e18;
+const int BLOCK_SIZE = 707;
 
-int n,t;
-int delta[MAXN1];
-int sum[MAXN1];
-int cnt[MAXN2];
-pii query[MAXN1];
+struct qu{
+	int id,l,r;
+};
+
+int n,q;
 int a[MAXN1];
+int cnt[MAXN2];
+long long answer[MAXN1];
+long long res = 0;
+vector<qu> queries;
 
-pii get(int pos) {
-	pii res;
-	for(;pos > 0; pos -= (pos & -pos)) {
-		res.fi += delta[pos];
-		res.se += sum[pos];
-	}
-	return res;
+int L = 0, R = -1;
+
+
+void add(int pos) {
+	res += a[pos]*(2*cnt[a[pos]] + 1);
+	cnt[a[pos]]++;
 }
 
-void update(int pos, int val) {
-	cnt[val]++;
-	for(;pos <= n; pos += (pos & -pos)) {
-		delta[pos] += (2 * cnt[val])*val;
-		sum[pos] += (2*(cnt[val] - 1)*val + val);
-	}
-	db(2*(cnt[val] - 1)*val + val);
-	cerr << "\n";
+void remove(int pos) {
+	--cnt[a[pos]];
+	res -= a[pos]*(2*cnt[a[pos]] + 1);
 }
 
-signed main() {
+int main() {
 	fast_cin();
 	
-	cin >> n >> t;
 	
-	for(int i=1;i<=n;++i) {
-		cin >> a[i];
+	cin >> n >> q;
+	for(int i  = 1; i <= n; ++i) cin >> a[i];
+	
+	
+	for(int i = 1; i <= q; ++i) {
+		int l,r;
+		cin >> l >> r;
+		queries.push_back({i, l, r});
 	}
 	
-	for(int i=1;i<=t;++i) {
-		cin >> query[i].fi >> query[i].se;
-	}
-	
-	sort(query + 1, query + t + 1, [&] (const pii& A, const pii& B) {
-		return A.se < B.se;
+	sort(queries.begin(), queries.end(), [&] (const qu &A, const qu &B) {
+		if((A.l / BLOCK_SIZE) != (B.l / BLOCK_SIZE)) {
+			return (A.l / BLOCK_SIZE) < (B.l / BLOCK_SIZE);
+		}
+		
+		return ((A.l / BLOCK_SIZE) & 1 ? (A. r < B.r) : (A.r > B.r));
 	});
-	int id = 1;
-	for(int i = 1; i <= n;++i) {
-		update(i, a[i]);
-		while(id <= t && i == query[id].se) {
-			db(i);
-			int l = query[id].fi;
-			int r = query[id].se;
-			pii left = get(l - 1);
-			pii right = get(r);
-			db(right.se);
-			db(left.se);
-			cerr << "\n";
-			int ans = right.se - left.se - left.fi;
-			
-			cout << ans << "\n";
-			++id;
-		} 
-	}
+
+	for(auto X : queries) {
+		while(L > X.l) {
+			add(--L);
+		}
+		
+		while(R < X.r) {
+			add(++R);
+		}
+		
+		while(L < X.l) remove(L++);
+		while(R > X.r) remove(R--);
+		
+		answer[X.id] = res;
+	}	
+	
+	for(int i = 1; i <= q; ++i) cout << answer[i] << "\n";
 	
 	
 	#ifndef LOCAL_DEFINE

@@ -68,7 +68,7 @@ void dfs2(int u, int par) {
 	
 	if(node == -1) return;
 	
-	dpup[node] = max(dpup[node], best + h[u] + 1);
+	dpup[node] = max(dpup[u], best + h[u] + 1);
 	dfs2(node, u);
 	
 }

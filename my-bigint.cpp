@@ -33,7 +33,6 @@ int ins(int b) {
 }
 
 void fix(vi &a) {
-	int cur = 0,tmp;
 	a.pb(0);
 	for(int i=0;i<a.size()-1;++i) {
 		a[i + 1] += a[i]/10;

@@ -37,7 +37,11 @@ signed main() {
 	fast_cin();
 	
 	srand(time_t(0));
-
+	
+	cout << (int)6e4 << "\n";
+	for(int i = 1; i <= 60000; ++i) {
+		cout << getRand(1, 60000) << " ";
+	}
   
 	#ifndef LOCAL_DEFINE
 	cerr << "\nTime elapsed: " << 1.0 * clock_t() / CLOCKS_PER_SEC << " s.\n ";
